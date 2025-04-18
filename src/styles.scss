@@ -1,1 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'styles/variables';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family;
+  font-size: $font-size-base;
+  color: $text-dark;
+  background-color: $background-light;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: $container-width;
+  margin: 0 auto;
+  padding: 0 $spacing-unit * 2.5;
+}
+
+.section {
+  padding: $spacing-unit * 10 0;
+}
+
+.btn {
+  display: inline-block;
+  background-color: $primary-color;
+  color: $white;
+  padding: $spacing-unit * 1.5 $spacing-unit * 3.75;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

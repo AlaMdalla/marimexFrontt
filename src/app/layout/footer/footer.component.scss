@@ -1,0 +1,73 @@
+@import '../../../styles/variables';
+
+.site-footer {
+  background-color: #333;
+  color: white;
+  padding: $spacing-unit * 6.25 0 $spacing-unit * 2.5;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-unit * 3.75;
+  margin-bottom: $spacing-unit * 5;
+  
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer-col {
+  h4 {
+    font-size: 18px;
+    margin-bottom: $spacing-unit * 2.5;
+    position: relative;
+    padding-bottom: $spacing-unit * 1.25;
+    
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background-color: $primary-color;
+    }
+  }
+  
+  p {
+    color: #bbb;
+    margin-bottom: $spacing-unit * 2.5;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      margin-bottom: $spacing-unit * 1.25;
+      
+      a {
+        color: #bbb;
+        text-decoration: none;
+        transition: color 0.3s;
+        
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: $spacing-unit * 2.5;
+  text-align: center;
+  color: #999;
+}

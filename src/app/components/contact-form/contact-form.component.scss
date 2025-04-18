@@ -1,0 +1,50 @@
+.contact {
+    padding: 80px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+  
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+  
+    h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
+  
+      span {
+        color: #a67c52;
+      }
+    }
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+  
+      input,
+      textarea {
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        font-family: inherit;
+      }
+  
+      button {
+        background-color: #a67c52;
+        color: white;
+        padding: 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+  
+        &:hover {
+          background-color: #8a623f;
+        }
+      }
+    }
+  }
+  
