@@ -1,4 +1,5 @@
 :host {
+
     display: block;
     position: sticky;
     top: 0;
@@ -49,6 +50,7 @@
           color: #333;
           font-weight: 500;
           transition: color 0.3s;
+          z-index: 10000;
           
           &:hover {
             color: #a67c52;

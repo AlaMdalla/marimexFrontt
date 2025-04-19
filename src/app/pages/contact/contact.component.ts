@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './contact.component.scss'
 })
 export class ContactComponent {
-
+email:string='ste.marimex@gmail.com'
 }

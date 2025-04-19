@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 
 import { AppComponent } from './app.component';
@@ -19,6 +18,9 @@ import { ProductGalleryComponent } from './components/product-gallery/product-ga
 import { ProductFilterComponent } from './components/product-filter/product-filter.component';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app.routes';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
-    
+    AppRoutingModule,  // should include RouterModule.forRoot(routes)
+    RouterModule,
     BrowserAnimationsModule,
     MatIconModule,
     AppComponent,
@@ -43,9 +46,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProductCardComponent,
     ProductGalleryComponent,
     ProductFilterComponent,
-    ContactFormComponent
+    ContactFormComponent,
+    AppRoutingModule,
+    HttpClientModule
+     
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: []
 })
 export class AppModule { }

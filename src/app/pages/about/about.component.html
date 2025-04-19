@@ -1,27 +1,451 @@
-<section class="about-page">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - Marimex</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .hero-section {
+      background-color: #f8f3ee;
+      padding: 80px 0;
+      text-align: center;
+    }
+    
+    .hero-section h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .hero-section p {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 0 auto;
+      color: #666;
+    }
+    
+    .about-content {
+      padding: 80px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+    
+    .about-image {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      height: 450px;
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+    }
+    
+    .about-text h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #a67c52;
+    }
+    
+    .about-text p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    
+    .mission-section {
+      background-color: #f8f3ee;
+      padding: 80px 0;
+    }
+    
+    .mission-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+    
+    .mission-text h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #a67c52;
+    }
+    
+    .mission-image {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      height: 450px;
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+    }
+    
+    .values-section {
+      padding: 80px 0;
+    }
+    
+    .values-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .values-header h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #a67c52;
+    }
+    
+    .values-header p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: #666;
+    }
+    
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    
+    .value-card {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .value-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .icon-circle {
+      width: 70px;
+      height: 70px;
+      background-color: #f8f3ee;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    
+    .value-card h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #a67c52;
+    }
+    
+    .team-section {
+      background-color: #f8f3ee;
+      padding: 80px 0;
+    }
+    
+    .team-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .team-header h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #a67c52;
+    }
+    
+    .team-header p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: #666;
+    }
+    
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+    }
+    
+    .team-member {
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+    
+    .team-member:hover {
+      transform: translateY(-5px);
+    }
+    
+    .member-image {
+      height: 250px;
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+    }
+    
+    .member-info {
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .member-info h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    
+    .member-info p {
+      color: #a67c52;
+      margin-bottom: 10px;
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background-color: #f8f3ee;
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+    
+    .social-links a:hover {
+      background-color: #a67c52;
+    }
+    
+    .social-links a:hover svg {
+      fill: white;
+    }
+    
+    @media (max-width: 768px) {
+      .about-content, .mission-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Your header would go here in a real implementation -->
+  
+  <div class="hero-section">
     <div class="container">
-      <h2>About Marimex</h2>
-      <p>
-        Marimex is a leading provider of premium marble and stone products. With decades of expertise, we bring
-        elegance and durability to every space we touch.
-      </p>
-  
-      <div class="about-image">
-        <img src="https://source.unsplash.com/1000x600/?marble,showroom" alt="Our Marble Showroom">
-      </div>
-  
-      <h3>Our Mission</h3>
-      <p>
-        To offer top-tier marble selections, unmatched craftsmanship, and tailored experiences to clients worldwide.
-      </p>
-  
-      <h3>Our Values</h3>
-      <ul>
-        <li>✅ Excellence in quality</li>
-        <li>✅ Integrity and transparency</li>
-        <li>✅ Tailored service and design</li>
-        <li>✅ Commitment to global delivery</li>
-      </ul>
+      <h1>About Marimex</h1>
+      <p>Crafting exceptional products with passion and precision since 2010.</p>
     </div>
-  </section>
+  </div>
   
+  <div class="container">
+    <div class="about-content">
+      <div class="about-image">
+        [Company image placeholder]
+      </div>
+      <div class="about-text">
+        <h2>Our Story</h2>
+        <p>Founded in 2010, Marimex began as a small workshop with a big vision. Our founder, Maria Martinez, believed in creating products that combined functionality with beautiful design, all while maintaining the highest standards of quality.</p>
+        <p>What started as a passion project has now grown into a respected brand known for its commitment to craftsmanship and innovation. Today, we continue to push boundaries while staying true to our core values of excellence, sustainability, and customer satisfaction.</p>
+        <p>Over the years, our collections have evolved, but our dedication to creating exceptional products remains unchanged. Each item is thoughtfully designed and meticulously crafted to ensure it not only meets but exceeds your expectations.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="mission-section">
+    <div class="container">
+      <div class="mission-content">
+        <div class="mission-text">
+          <h2>Our Mission & Vision</h2>
+          <p>At Marimex, our mission is to enrich people's lives through thoughtfully designed products that combine beauty, functionality, and sustainability. We believe that the objects we surround ourselves with should not only serve a purpose but also bring joy and inspiration.</p>
+          <p>Our vision is to become a global leader in our industry, recognized for our innovative designs, exceptional quality, and commitment to responsible business practices. We aim to create a world where mindful consumption and appreciation for craftsmanship go hand in hand.</p>
+          <p>Every day, we work towards these goals by investing in our people, refining our processes, and listening closely to our customers. We're driven by the belief that even the smallest details matter, and it's this attention to detail that sets Marimex apart.</p>
+        </div>
+        <div class="mission-image">
+          [Mission image placeholder]
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="values-section">
+    <div class="container">
+      <div class="values-header">
+        <h2>Our Core Values</h2>
+        <p>These principles guide everything we do at Marimex, from how we design our products to how we interact with our customers and community.</p>
+      </div>
+      
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="icon-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#a67c52">
+              <path d="M17.997 18h-11.995l-.002-.623c0-1.259.1-1.986 1.588-2.33 1.684-.389 3.344-.736 2.545-2.209-2.366-4.363-.674-6.838 1.866-6.838 2.491 0 4.226 2.383 1.866 6.839-.775 1.464.826 1.812 2.545 2.209 1.49.344 1.589 1.072 1.589 2.333l-.002.619zm4.811-2.214c-1.29-.298-2.49-.559-1.909-1.657 1.769-3.342.469-5.129-1.4-5.129-1.265 0-2.248.817-2.248 2.324 0 3.903 2.268 1.77 2.246 6.676h4.501l.002-.463c0-.946-.074-1.493-1.192-1.751zm-22.806 2.214h4.501c-.021-4.906 2.246-2.772 2.246-6.676 0-1.507-.983-2.324-2.248-2.324-1.869 0-3.169 1.787-1.399 5.129.581 1.099-.619 1.359-1.909 1.657-1.119.258-1.193.805-1.193 1.751l.002.463z"/>
+            </svg>
+          </div>
+          <h3>Quality Craftsmanship</h3>
+          <p>We believe in creating products that stand the test of time, focusing on exceptional materials and meticulous attention to detail in every piece we make.</p>
+        </div>
+        
+        <div class="value-card">
+          <div class="icon-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#a67c52">
+              <path d="M12 0l-11 6v12.131l11 5.869 11-5.869v-12.066l-11-6.065zm7.91 6.646l-7.905 4.398-7.872-4.397 7.862-4.289 7.915 4.288zm-16.91 1.93l9 5.032v8.172l-9-4.805v-8.399zm18 0v8.399l-9 4.805v-8.172l9-5.032z"/>
+            </svg>
+          </div>
+          <h3>Sustainable Innovation</h3>
+          <p>We continuously explore new ideas and technologies to improve our products while minimizing our environmental impact and promoting responsible consumption.</p>
+        </div>
+        
+        <div class="value-card">
+          <div class="icon-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#a67c52">
+              <path d="M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.096-4.373 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z"/>
+            </svg>
+          </div>
+          <h3>Customer Dedication</h3>
+          <p>We put our customers at the heart of everything we do, striving to exceed expectations and build lasting relationships based on trust and exceptional service.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="team-section">
+    <div class="container">
+      <div class="team-header">
+        <h2>Meet Our Team</h2>
+        <p>The passionate individuals behind Marimex who bring our vision to life every day.</p>
+      </div>
+      
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="member-image">
+            [Team member photo]
+          </div>
+          <div class="member-info">
+            <h3>Maria Martinez</h3>
+            <p>Founder & CEO</p>
+            <div class="social-links">
+              <a href="#" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#a67c52">
+                  <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/>
+                </svg>
+              </a>
+              <a href="#" aria-label="Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#a67c52">
+                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="team-member">
+          <div class="member-image">
+            [Team member photo]
+          </div>
+          <div class="member-info">
+            <h3>Daniel Lee</h3>
+            <p>Creative Director</p>
+            <div class="social-links">
+              <a href="#" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#a67c52">
+                  <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/>
+                </svg>
+              </a>
+              <a href="#" aria-label="Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#a67c52">
+                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="team-member">
+          <div class="member-image">
+            [Team member photo]
+          </div>
+          <div class="member-info">
+            <h3>Sofia Rodriguez</h3>
+            <p>Head of Production</p>
+            <div class="social-links">
+              <a href="#" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#a67c52">
+                  <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/>
+                </svg>
+              </a>
+              <a href="#" aria-label="Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#a67c52">
+                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="team-member">
+          <div class="member-image">
+            [Team member photo]
+          </div>
+          <div class="member-info">
+            <h3>James Wilson</h3>
+            <p>Marketing Director</p>
+            <div class="social-links">
+              <a href="#" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#a67c52">
+                  <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/>
+                </svg>
+              </a>
+              <a href="#" aria-label="Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#a67c52">
+                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
