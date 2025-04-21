@@ -52,6 +52,7 @@ import { RouterModule } from '@angular/router';
      
   ],
   providers: [provideHttpClient()],
+ 
   bootstrap: []
 })
 export class AppModule { }

@@ -1,198 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Collection - Marimex</title>
- 
+<!-- Container -->
+<div class="container">
+  <div class="collection-header">
+    <h1>Our Collection</h1>
+    <p>Discover our handcrafted selection of premium products, designed with quality and elegance in mind.</p>
+  </div>
 
-</head>
-<body>
-  <!-- Your header would go here in a real implementation -->
-  
-  <div class="container">
-    <div class="collection-header">
-      <h1>Our Collection</h1>
-      <p>Discover our handcrafted selection of premium products, designed with quality and elegance in mind.</p>
+  <div class="filters">
+    <div class="filter-categories">
+      <button class="category-btn active">All Products</button>
+      <button class="category-btn">New Arrivals</button>
+      <button class="category-btn">Best Sellers</button>
+      <button class="category-btn">Home Decor</button>
+      <button class="category-btn">Accessories</button>
     </div>
-    
-    <div class="filters">
-      <div class="filter-categories">
-        <button class="category-btn active">All Products</button>
-        <button class="category-btn">New Arrivals</button>
-        <button class="category-btn">Best Sellers</button>
-        <button class="category-btn">Home Decor</button>
-        <button class="category-btn">Accessories</button>
-      </div>
-      
-      <div class="sort-dropdown">
-        <button class="sort-btn">
-          Sort by: Featured
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#666">
-            <path d="M7 10l5 5 5-5z"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-    
-    <div class="products-grid">
-      <!-- Product 1 -->
-      <div class="product-card">
-        <div class="product-image">
-          <span class="product-tag tag-new">New</span>
-          <img src="	https://i.postimg.cc/k47LcrQQ/20230801-141355.jpg" alt="Modern Ceramic Vase">
-          <div class="quick-view">Quick View</div>
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Modern Ceramic Vase</h3>
-          <p class="product-description">BROSSE DUPONT 24-36-46-80-120-320-500
-          </p>
-          <div class="product-price">$89.99</div>
-        </div>
-      </div>
-      
-      <!-- Product 2 -->
-      <div class="product-card">
-        <div class="product-image">
-          <span class="product-tag tag-popular">Popular</span>
-          <img src="/api/placeholder/400/300" alt="Artisan Wood Bowl">
-          <div class="quick-view">Quick View</div>
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Artisan Wood Bowl</h3>
-          <p class="product-description">Natural wood bowl carved by skilled artisans, featuring unique grain patterns and smooth finish.</p>
-          <div class="product-price">$65.00</div>
-        </div>
-      </div>
-      
-      <!-- Product 3 -->
-      <div class="product-card">
-        <div class="product-image">
-          <span class="product-tag tag-sale">Sale</span>
-          <img src="/api/placeholder/400/300" alt="Woven Textile Throw">
-          <div class="quick-view">Quick View</div>
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Woven Textile Throw</h3>
-          <p class="product-description">Soft and luxurious throw blanket made from premium materials with traditional weaving techniques.</p>
-          <div class="product-price">$49.99</div>
-        </div>
-      </div>
-      
-      <!-- Product 4 -->
-      <div class="product-card">
-        <div class="product-image">
-          <img src="/api/placeholder/400/300" alt="Brass Table Lamp">
-          <div class="quick-view">Quick View</div>
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Brass Table Lamp</h3>
-          <p class="product-description">Elegant brass lamp with adjustable arm and warm lighting, perfect for your desk or bedside table.</p>
-          <div class="product-price">$129.00</div>
-        </div>
-      </div>
-      
-      <!-- Product 5 -->
-      <div class="product-card">
-        <div class="product-image">
-          <span class="product-tag tag-new">New</span>
-          <img src="/api/placeholder/400/300" alt="Marble Coaster Set">
-          <div class="quick-view">Quick View</div>
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Marble Coaster Set</h3>
-          <p class="product-description">Set of four premium marble coasters with cork backing, each featuring unique natural patterns.</p>
-          <div class="product-price">$39.95</div>
-        </div>
-      </div>
-      
-      <!-- Product 6 -->
-      <div class="product-card">
-        <div class="product-image">
-          <img src="/api/placeholder/400/300" alt="Handwoven Wall Basket">
-          <div class="quick-view">Quick View</div>
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Handwoven Wall Basket</h3>
-          <p class="product-description">Decorative wall basket made from natural fibers, adding texture and warmth to any room.</p>
-          <div class="product-price">$75.50</div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="load-more">
-      <button class="load-more-btn">Load More Products</button>
-    </div>
+
+<div class="tag-filter">
+  <button class="tag-filter-btn" (click)="toggleTagMenu()">
+    Filter by Tag
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#666">
+      <path d="M7 10l5 5 5-5z"/>
+    </svg>
+  </button>
+  <div class="tag-filter-menu" [ngClass]="{'active': isTagMenuOpen}">
+    <button class="tag-filter-option" *ngFor="let tag of tags" (click)="filterByTag(tag.name)">
+      {{ tag.name }}
+      {{tag.count}}
+    </button>
   </div>
-  
-  <!-- Product Quick View Modal -->
-  <div class="modal" id="productModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Product Details</h2>
-        <button class="close-modal">&times;</button>
+</div>
+
+
+  <div class="products-grid">
+    <div class="product-card" *ngFor="let marabel of visibleProducts">
+      <div class="product-image">
+        <span class="product-tag tag-new">{{ marabel.tags }}</span>
+        <img [src]="marabel.imageurl" alt="{{ marabel.name }}">
+        <div class="quick-view" (click)="openModal(marabel)">Quick View</div>
       </div>
-      <div class="modal-body">
-        <div class="modal-left">
-          <div class="modal-image">
-            <img src="/api/placeholder/500/500" alt="Product Image" id="modalProductImage">
-          </div>
-        </div>
-        <div class="modal-right">
-          <h2 class="modal-product-title" id="modalProductTitle">Product Title</h2>
-          <div class="modal-product-price" id="modalProductPrice">$00.00</div>
-          <div class="modal-product-description" id="modalProductDescription">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies aliquam, est nisl aliquet nisl, eget aliquet nisl nisl eget.</p>
-            <p>Nulla facilisi. Donec euismod, nisl eget ultricies aliquam, est nisl aliquet nisl, eget aliquet nisl nisl eget. Nulla facilisi.</p>
-          </div>
-          <button class="add-to-cart">Add to Cart</button>
-        </div>
+      <div class="product-info">
+        <h3 class="product-title">{{ marabel.name }}</h3>
+        <p class="product-description">{{ marabel.descriptions }}</p>
+      <!-- <div class="product-price">{{ marabel.price }}</div>--> 
       </div>
     </div>
   </div>
-  
-  <script>
-    // Quick view functionality
-    const quickViewButtons = document.querySelectorAll('.quick-view');
-    const modal = document.getElementById('productModal');
-    const closeModal = document.querySelector('.close-modal');
-    
-    quickViewButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const productCard = this.closest('.product-card');
-        const productTitle = productCard.querySelector('.product-title').textContent;
-        const productPrice = productCard.querySelector('.product-price').textContent;
-        const productDescription = productCard.querySelector('.product-description').textContent;
-        const productImage = productCard.querySelector('img').src;
-        
-        document.getElementById('modalProductTitle').textContent = productTitle;
-        document.getElementById('modalProductPrice').textContent = productPrice;
-        document.getElementById('modalProductDescription').innerHTML = `<p>${productDescription}</p>`;
-        document.getElementById('modalProductImage').src = productImage;
-        
-        modal.style.display = 'flex';
-      });
-    });
-    
-    closeModal.addEventListener('click', function() {
-      modal.style.display = 'none';
-    });
-    
-    window.addEventListener('click', function(event) {
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-    
-    // Category buttons functionality
-    const categoryButtons = document.querySelectorAll('.category-btn');
-    
-    categoryButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        categoryButtons.forEach(btn => btn.classList.remove('active'));
-        this.classList.add('active');
-      });
-    });
-  </script>
-</body>
-</html>
+
+  <div class="load-more" *ngIf="visibleProducts.length < marbles.length">
+    <button class="load-more-btn" (click)="loadMore()">Load More Products</button>
+  </div>
+</div>
+
+<!-- Quick View Modal -->
+<div class="modal" *ngIf="showModal" (click)="closeModal($event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ selectedProduct?.name }}</h2>
+      <button class="close-modal" (click)="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-left">
+        <div class="modal-image">
+          <img [src]="selectedProduct?.imageurl" alt="Product Image">
+        </div>
+      </div>
+      <div class="modal-right">
+        <h2 class="modal-product-title">{{ selectedProduct?.name }}</h2>
+      <!--  <div class="modal-product-price">{{ selectedProduct?.price }}</div> -->
+        <div class="modal-product-description">
+          <p>{{ selectedProduct?.descriptions }}</p>
+        </div>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
