@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
@@ -27,7 +29,9 @@ import { RouterModule } from '@angular/router';
     
   ],
   imports: [
+   
     BrowserModule,
+    FormsModule,
     AppRoutingModule,  // should include RouterModule.forRoot(routes)
     RouterModule,
     BrowserAnimationsModule,

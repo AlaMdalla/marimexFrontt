@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="cart-header">
+    <h1>Your Cart</h1>
+    <p *ngIf="cartItems.length > 0">{{ cartItems.length }} {{ cartItems.length === 1 ? 'item' : 'items' }} in your cart</p>
+  </div>
+
+  <!-- Empty Cart State -->
+  <div class="empty-cart" *ngIf="cartItems.length === 0">
+    <h2>Your cart is empty</h2>
+    <p>Looks like you haven't added any marbles yet.</p>
+    <a href="/products" class="continue-shopping">Continue Shopping</a>
+  </div>
+
+  <!-- Cart Items -->
+  <div class="cart-content" *ngIf="cartItems.length > 0">
+    <div class="cart-table">
+      <div class="cart-table-header">
+        <div class="cart-table-cell">Product</div>
+        <div class="cart-table-cell">Price</div>
+        <div class="cart-table-cell">Quantity</div>
+        <div class="cart-table-cell">Total</div>
+        <div class="cart-table-cell"></div>
+      </div>
+      <div class="cart-table-row" *ngFor="let item of cartItems">
+        <div class="cart-table-cell cart-product">
+          <img [src]="item.marbel.imageurl" alt="{{ item.marbel.name }}" class="cart-item-image">
+          <span class="cart-item-name">{{ item.marbel.name }}</span>
+        </div>
+        <div class="cart-table-cell cart-price">${{ item.marbel.price }}</div>
+        <div class="cart-table-cell cart-quantity">
+          <div class="quantity-control">
+            <button class="quantity-btn" (click)="decreaseQuantity(item)" [disabled]="item.count <= 1">-</button>
+            <input type="number" class="quantity-input" [(ngModel)]="item.count" (ngModelChange)="updateQuantity(item)" min="1">
+            <button class="quantity-btn" (click)="increaseQuantity(item)">+</button>
+          </div>
+        </div>
+        <div class="cart-table-cell cart-total">${{ item.marbel.price * item.count }}</div>
+        <div class="cart-table-cell cart-remove">
+          <button class="remove-btn" (click)="removeItem(item)">×</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <div class="subtotal">
+        <span>Subtotal</span>
+        <span class="subtotal-amount">${{ calculateSubtotal() }}</span>
+      </div>
+      <button class="checkout-btn" (click)="checkout()">Proceed to Checkout</button>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,8 @@ import { Marble } from '../../models/marble';
 import { MarblesService } from '../../services/marables.service';
 import { CommonModule } from '@angular/common';
 import { Tag } from '../../models/tag';
+import { cartItem } from '../../models/cart';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-products',
@@ -11,6 +13,11 @@ import { Tag } from '../../models/tag';
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent {
+addToCart(marbel: Marble|null) {
+  const cartItem0 = new cartItem(marbel!, 1);
+  this.cartService.addToCart(cartItem0);
+  
+}
   isTagMenuOpen = false;
   marbles: Marble[] = [];
   tags:Tag[] =[];
@@ -22,7 +29,7 @@ export class ProductsComponent {
   itemsPerPage: number = 6;
   currentPage: number = 1;
 
-  constructor(private marbleService: MarblesService) {
+  constructor(private marbleService: MarblesService,private cartService: CartService) {
     console.log('ProductsComponent injecting MarblesService');
   }
 

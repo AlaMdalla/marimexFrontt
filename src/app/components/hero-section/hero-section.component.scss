@@ -1,37 +1,63 @@
 .hero-section {
-    background: url('./../../../assets/marble-bg.jpg') no-repeat center center/cover;
-    color: #fff;
-    padding: 100px 0;
-    text-align: center;
+  background: url('./../../../assets/marble-bg.jpg') no-repeat center center/cover;
+  color: #fff;
+  padding: 100px 0;
+  text-align: center;
+  position: relative;
   
-    .hero-content {
-      h1 {
-        font-size: 48px;
-        margin-bottom: 20px;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
   
-        span {
-          color: #a67c52;
-        }
+  .hero-content {
+    position: relative;
+    z-index: 2; 
+    
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
+      
+      .welcome-text {
+        font-weight: 300; /* Lighter weight for "Welcome to" */
       }
-  
-      p {
-        font-size: 20px;
-        margin-bottom: 30px;
+      
+      .brand-name {
+        color: #d4a76a; /* Brighter gold color for better contrast */
+        font-weight: 700; /* Bolder weight for the brand name */
+        font-size: 56px; /* Slightly larger size */
+        display: block; /* Put Marimex on its own line */
+        letter-spacing: 2px; /* Add spacing between letters */
       }
-  
-      .cta-button {
-        background-color: #a67c52;
-        color: #fff;
-        padding: 12px 30px;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s;
-  
-        &:hover {
-          background-color: #8a623f;
-        }
+    }
+    
+    p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
+    }
+    
+    .cta-button {
+      background-color: #a67c52;
+      color: #fff;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+      
+      &:hover {
+        background-color: #8a623f;
       }
     }
   }
+}
