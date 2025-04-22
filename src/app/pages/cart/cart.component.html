@@ -1,52 +1,76 @@
-<div class="container">
+<div class="cart-container">
   <div class="cart-header">
     <h1>Your Cart</h1>
-    <p *ngIf="cartItems.length > 0">{{ cartItems.length }} {{ cartItems.length === 1 ? 'item' : 'items' }} in your cart</p>
+    <p *ngIf="cartItems.length > 0" class="cart-count">{{ cartItems.length }} {{ cartItems.length === 1 ? 'item' : 'items' }} in your cart</p>
   </div>
 
   <!-- Empty Cart State -->
   <div class="empty-cart" *ngIf="cartItems.length === 0">
-    <h2>Your cart is empty</h2>
-    <p>Looks like you haven't added any marbles yet.</p>
-    <a href="/products" class="continue-shopping">Continue Shopping</a>
+    <div class="empty-cart-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a67c52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="10" cy="20.5" r="1"/><circle cx="18" cy="20.5" r="1"/>
+        <path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1"/>
+      </svg>
+    </div>
+    <h2>Your Cart Feels Light</h2>
+    <p>No marbles collected yet—let's find your perfect piece.</p>
+    <a routerLink="/products" class="continue-shopping-btn">Explore Collection</a>
   </div>
 
   <!-- Cart Items -->
   <div class="cart-content" *ngIf="cartItems.length > 0">
-    <div class="cart-table">
-      <div class="cart-table-header">
-        <div class="cart-table-cell">Product</div>
-        <div class="cart-table-cell">Price</div>
-        <div class="cart-table-cell">Quantity</div>
-        <div class="cart-table-cell">Total</div>
-        <div class="cart-table-cell"></div>
-      </div>
-      <div class="cart-table-row" *ngFor="let item of cartItems">
-        <div class="cart-table-cell cart-product">
-          <img [src]="item.marbel.imageurl" alt="{{ item.marbel.name }}" class="cart-item-image">
-          <span class="cart-item-name">{{ item.marbel.name }}</span>
+    <div class="cart-items">
+      <div class="cart-item" *ngFor="let item of cartItems">
+        <div class="item-image">
+          <img [src]="item.marbel.imageurl" alt="{{ item.marbel.name }}" class="product-image">
         </div>
-        <div class="cart-table-cell cart-price">${{ item.marbel.price }}</div>
-        <div class="cart-table-cell cart-quantity">
+        <div class="item-details">
+          <h3 class="product-name">{{ item.marbel.name }}</h3>
+          <p class="product-price">${{ item.marbel.price | number:'1.2-2' }}</p>
           <div class="quantity-control">
-            <button class="quantity-btn" (click)="decreaseQuantity(item)" [disabled]="item.count <= 1">-</button>
-            <input type="number" class="quantity-input" [(ngModel)]="item.count" (ngModelChange)="updateQuantity(item)" min="1">
-            <button class="quantity-btn" (click)="increaseQuantity(item)">+</button>
+            <button class="quantity-btn" (click)="decreaseQuantity(item)" [disabled]="item.count <= 1">
+              <svg width="12" height="2" viewBox="0 0 12 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 1H1" stroke="#a67c52" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <span class="quantity">{{ item.count }}</span>
+            <button class="quantity-btn" (click)="increaseQuantity(item)">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 1V11M1 6H11" stroke="#a67c52" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
           </div>
         </div>
-        <div class="cart-table-cell cart-total">${{ item.marbel.price * item.count }}</div>
-        <div class="cart-table-cell cart-remove">
-          <button class="remove-btn" (click)="removeItem(item)">×</button>
+        <div class="item-total">
+          <span>${{ (item.marbel.price * item.count) | number:'1.2-2' }}</span>
         </div>
+        <button class="remove-item" (click)="removeItem(item)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6L18 18" stroke="#a67c52" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
       </div>
     </div>
 
     <div class="cart-summary">
-      <div class="subtotal">
-        <span>Subtotal</span>
-        <span class="subtotal-amount">${{ calculateSubtotal() }}</span>
+      <h3 class="summary-title">Order Summary</h3>
+      
+      <div class="summary-totals">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span class="amount">${{ calculateSubtotal() | number:'1.2-2' }}</span>
+        </div>
+        <div class="summary-row shipping-note">
+          <span>Shipping calculated at checkout</span>
+        </div>
+        <div class="summary-row total">
+          <span>Estimated Total</span>
+          <span class="amount">${{ calculateSubtotal() | number:'1.2-2' }}</span>
+        </div>
       </div>
+    
       <button class="checkout-btn" (click)="checkout()">Proceed to Checkout</button>
+      <a routerLink="/products" class="continue-shopping-link">Continue Shopping</a>
     </div>
   </div>
 </div>
