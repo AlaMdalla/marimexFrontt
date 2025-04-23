@@ -204,6 +204,8 @@
       align-items: center;
       justify-content: center;
       color: #888;
+      object-fit: cover;
+  border-radius: 8px; 
     }
     
     .member-info {
@@ -266,6 +268,29 @@
         grid-template-columns: 1fr;
       }
     }
+    .member-image {
+  height: 250px;
+  width: 100%; /* Ensure full width of container */
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  overflow: hidden; /* Ensure images don't overflow container */
+  border-radius: 8px 8px 0 0; /* Only round top corners to match card style */
+}
+
+.member-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure images cover the area without distortion */
+  object-position: center; /* Center the image focus */
+  transition: transform 0.3s ease; /* Add smooth hover effect */
+}
+
+.team-member:hover .member-image img {
+  transform: scale(1.05); /* Slight zoom on hover */
+}
   </style>
 </head>
 <body>
@@ -281,11 +306,11 @@
   <div class="container">
     <div class="about-content">
       <div class="about-image">
-        [Company image placeholder]
+       <img src="https://media-hosting.imagekit.io/e8a8b9f44ba8465b/4.jpg?Expires=1840024881&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=skWh14N~8sL-5dmYnx-OuRcLfuX-7DPXQNKWSN7lazPesuZGNVGdeqm2kINKT7VEFvAQQcLSxoY72642ux-UjBlZ3uX~A~YhiGYHzDb0KUASP-e8km4~HSsofklY7RdlWrf8AQmc9exlVQaKS2UN0g2Pq4qhjmUD72jVcmPd9icYp6p4-4YdKD0RgXUqkK~Tpnj-BN3Rvo~vTxMHmNWPB2-OSMt6Yat--sZxD9Au7wSO9cXSY5tMtQM8aEIscLU5Q9D-rsYiPrKvqTeq2cEkl8fBaGQpxRU0~OYGb6ZgjKa4xv4OzWFN3UQFTXGcWeVhHgL97AAz7v9Z3C9X3MUW6A__">
       </div>
       <div class="about-text">
         <h2>Our Story</h2>
-        <p>Founded in 2010, Marimex began as a small workshop with a big vision. Our founder, Maria Martinez, believed in creating products that combined functionality with beautiful design, all while maintaining the highest standards of quality.</p>
+        <p>Founded in 2010, Marimex began as a small workshop with a big vision. Our founder, Issam Karoui, believed in creating products that combined functionality with beautiful design, all while maintaining the highest standards of quality.</p>
         <p>What started as a passion project has now grown into a respected brand known for its commitment to craftsmanship and innovation. Today, we continue to push boundaries while staying true to our core values of excellence, sustainability, and customer satisfaction.</p>
         <p>Over the years, our collections have evolved, but our dedication to creating exceptional products remains unchanged. Each item is thoughtfully designed and meticulously crafted to ensure it not only meets but exceeds your expectations.</p>
       </div>
@@ -302,7 +327,7 @@
           <p>Every day, we work towards these goals by investing in our people, refining our processes, and listening closely to our customers. We're driven by the belief that even the smallest details matter, and it's this attention to detail that sets Marimex apart.</p>
         </div>
         <div class="mission-image">
-          [Mission image placeholder]
+          <img width="100%" src="https://media-hosting.imagekit.io/77dd601c198c450f/todd-quackenbush-IClZBVw5W5A-unsplash.jpg?Expires=1840025275&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=g-l9ubvCNNAHae2Yu~cQgO8t~U0WrbWUVTlC7DVjclOliJ3tsHVwjsCEMbDvCGLqMuki-xk-q5qw9A5UlIQ2bLwPipt73yQxI2wNtwN4eI0707qnrb73NiUhXdOSZS86JtEIiLQyp-jfMAFofGkhwrKzpCQwg2LWrIrIWzhnqrwMz9GQB4joa~myGh1FDv6HKDo83DnrqbjiCrLUCt~dKg6RK1WticT~J5n~0jg26PDQIx~~lsAm56hXT-~xGjVHRjzaSwNzEiUvk5yvToRIenNh~Nn7GtGR3s94Zl6ME2W5fgsHBBDHvLF1aLJh2r3Luzx2wzQOIEZ58DGgm8XQ6w__" alt="">
         </div>
       </div>
     </div>
@@ -359,13 +384,12 @@
       <div class="team-grid">
         <div class="team-member">
           <div class="member-image">
-            [Team member photo]
-          </div>
+<img src="https://media-hosting.imagekit.io/efd7cc3123194731/ceo.jpg?Expires=1840023320&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=r7Qt7BJztXix1nAo~imhIccE1ybN3FGbfcwWQIHkIDKqvVvc568zyfjKn1~Kbe30JFJt1Tu4-80CvFtW8Jvxj2GrMvXL7hKo8YfbmuoiUwCQbgclqbcfdKd7sx8kcWZ1gKux9ziAKi03CzBqoRfb2jaJXAYRLv1O66sEeZ1WHm~CpmBNlP49SSQ302JMCh69f~tDlUb566bT8PtMHwvGXzYBlJYI5xD1x5ZfFUG6EW7oDQSA0L9x8JSZAG9lTpqTc77AeSzCW98SfoX5btetx8MtiodwtWAPGN7FOgPajhzEZfpMpUnJWxR9ei06vGkNhv0bKeJcFGJx3fKu-1o93Q__" alt="" height="">          </div>
           <div class="member-info">
-            <h3>Maria Martinez</h3>
+            <h3>Issam Karoui</h3>
             <p>Founder & CEO</p>
             <div class="social-links">
-              <a href="#" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/in/issam-karoui-a84b9399/" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#a67c52">
                   <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/>
                 </svg>
@@ -381,7 +405,7 @@
         
         <div class="team-member">
           <div class="member-image">
-            [Team member photo]
+            <img [src]="''" [style.width.px]="200" [style.height.auto]="'auto'" />
           </div>
           <div class="member-info">
             <h3>Daniel Lee</h3>

@@ -3,19 +3,30 @@ import { cart, cartItem } from '../../models/cart';
 import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router'; // For navigation in checkout
+import { Router } from '@angular/router';
+import { MapsComponent } from "../../components/maps/maps.component"; // For navigation in checkout
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MapsComponent],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
+
   cartItems: cartItem[] = [];
   cart!: cart;
+  showMapModal = false;
 
+  openMap() {
+    this.showMapModal = true;
+  }
+
+  handleLocation(location: { lat: number; lng: number }) {
+    console.log('Selected Location:', location);
+    // You can save this to a form or send it to the server later
+  }
   constructor(private cartService: CartService, private router: Router) {}
 
   ngOnInit(): void {

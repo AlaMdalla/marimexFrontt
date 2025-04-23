@@ -1,0 +1,10 @@
+<div class="map-backdrop" (click)="close()">
+    <div class="map-container" (click)="$event.stopPropagation()">
+      <div #map style="height: 80vh; width: 100%"></div>
+      <div class="map-buttons">
+        <button class="map-btn" (click)="validateLocation()">Validate</button>
+        <button class="map-btn" (click)="close()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
