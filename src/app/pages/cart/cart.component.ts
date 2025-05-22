@@ -17,13 +17,17 @@ export class CartComponent implements OnInit {
 
   cartItems: cartItem[] = [];
   cart!: cart;
+  location:any;
   showMapModal = false;
+number_of_phone: string = '';
+order_name: string='';
 
   openMap() {
     this.showMapModal = true;
   }
 
   handleLocation(location: { lat: number; lng: number }) {
+    this.location=location;
     console.log('Selected Location:', location);
     // You can save this to a form or send it to the server later
   }
@@ -75,5 +79,20 @@ export class CartComponent implements OnInit {
     this.cartService.clearCart();
     this.cart = this.cartService.getCart();
     this.cartItems = this.cart.cartItems;
+  }
+  submitOrder(): void {
+    const commande = {
+      list_marbles: this.cartItems.map(item => ({
+        marble: item.marbel.id, // Use marble ID
+        count: item.count,
+       
+      })),
+       number_of_phone  :this.number_of_phone,
+      totalPrice: this.cart.totalPrice,
+      location: this.location,
+      order_name:this.order_name
+    };
+    console.log('Sending commande:', commande); 
+    this.cartService.submitOrder(commande);
   }
 }

@@ -1,0 +1,52 @@
+<div class="container">
+  <h2>All Marbles</h2>
+  <div class="table-controls">
+    <input type="text" [(ngModel)]="searchTerm" (input)="filterMarbles()" placeholder="Search marbles..." />
+    <select [(ngModel)]="sortBy" (change)="sortMarbles()">
+      <option value="name">Sort by Name</option>
+      <option value="price">Sort by Price</option>
+      <option value="stars">Sort by Stars</option>
+    </select>
+  </div>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Favorite</th>
+          <th>Stars</th>
+          <th>Descriptions</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let marble of paginatedMarbles">
+          <td>{{ marble.name }}</td>
+          <td>{{ marble.price | currency }}</td>
+          <td>{{ marble.favorite ? 'Yes' : 'No' }}</td>
+          <td>{{ marble.stars }}</td>
+          <td>{{ marble.descriptions }}</td>
+          <td><img [src]="marble.imageurl" alt="Marble image" width="80" height="80" /></td>
+          <td>
+            <button (click)="deleteMarble(marble._id)" [disabled]="loading">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="loading" class="loading">Loading...</div>
+    <div *ngIf="!paginatedMarbles.length && !loading" class="no-data">No marbles found.</div>
+    <div class="pagination" *ngIf="filteredMarbles.length && !loading">
+      <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+      <button
+        *ngFor="let page of pageNumbers"
+        (click)="goToPage(page)"
+        [class.active]="page === currentPage"
+      >
+        {{ page }}
+      </button>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+</div>

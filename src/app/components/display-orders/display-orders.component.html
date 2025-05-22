@@ -1,0 +1,128 @@
+<div class="container mt-4">
+  <!-- Filter -->
+  <div class="mb-4 position-relative">
+    <input
+      #filterInput
+      type="text"
+      class="form-control"
+      placeholder="Filter by price, location, marble name, phone, or order name"
+      [(ngModel)]="filterText"
+      (input)="filterOrders()"
+      aria-label="Filter orders"
+    />
+    <button
+      *ngIf="filterText"
+      class="btn btn-clear"
+      (click)="clearFilter()"
+      aria-label="Clear filter"
+      title="Clear filter"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!isLoading && filteredCommandes.length === 0" class="alert alert-info" role="alert">
+    No orders found.
+  </div>
+
+  <!-- Table -->
+  <div class="table-responsive">
+    <table
+      *ngIf="!isLoading && filteredCommandes.length > 0"
+      class="table table-striped table-hover table-bordered"
+      role="grid"
+      aria-label="Orders Table"
+    >
+      <thead class="table-dark">
+        <tr>
+          <th scope="col" (click)="sortBy('order_name')" class="sortable" [ngClass]="{'sorted': sortField === 'order_name'}">
+            Order Name
+            <span *ngIf="sortField === 'order_name'" [ngClass]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+          </th>
+          <th scope="col" (click)="sortBy('totalPrice')" class="sortable" [ngClass]="{'sorted': sortField === 'totalPrice'}">
+            Total Price
+            <span *ngIf="sortField === 'totalPrice'" [ngClass]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+          </th>
+          <th scope="col" (click)="sortBy('location')" class="sortable" [ngClass]="{'sorted': sortField === 'location'}">
+            Location
+            <span *ngIf="sortField === 'location'" [ngClass]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+          </th>
+          <th scope="col">Marbles</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let commande of filteredCommandes; let i = index" [attr.aria-labelledby]="'order-' + i">
+          <td>{{ commande.order_name || 'N/A' }}</td>
+          <td>{{ commande.totalPrice | currency }}</td>
+          <td>
+            <button
+              *ngIf="commande.location?.lat && commande.location?.lng; else noLocation"
+              class="btn btn-link p-0 location-btn"
+              (click)="openMap(commande.location.lat, commande.location.lng)"
+              (keydown.enter)="openMap(commande.location.lat, commande.location.lng)"
+              aria-label="View order location on Google Maps"
+              title="Open in Google Maps"
+              data-bs-toggle="tooltip"
+              tabindex="0"
+            >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>              </button>
+            <ng-template #noLocation>
+              <span class="text-muted">N/A</span>
+            </ng-template>
+          </td>
+          <td>
+            <div *ngFor="let item of commande.list_marbles" class="marble-item">
+              <img
+                [src]="item.marbleData?.imageurl || 'assets/placeholder.png'"
+                [alt]="item.marbleData?.name ? item.marbleData.name + ' marble' : 'Marble image'"
+                width="50"
+                height="50"
+                class="marble-img"
+                loading="lazy"
+              />
+              <span class="marble-name">{{ item.marbleData?.name || 'Unknown marble' }} (x{{ item.count }})</span>
+            </div>
+          </td>
+          <td>{{ commande.number_of_phone || 'N/A' }}</td>
+          <td>
+            <div class="actions-container d-flex align-items-center">
+              <button
+                class="btn btn-success btn-sm action-btn"
+                [disabled]="commande.status === 'validated'"
+                (click)="validateCommande(commande)"
+                aria-label="Validate order"
+                title="Validate order"
+                data-bs-toggle="tooltip"
+              >
+                <i class="fas fa-check-circle me-1"></i> Validate
+              </button>
+              <button
+                class="btn btn-danger btn-sm action-btn"
+                [disabled]="commande.status === 'rejected'"
+                (click)="rejectCommande(commande)"
+                aria-label="Reject order"
+                title="Reject order"
+                data-bs-toggle="tooltip"
+              >
+                <i class="fas fa-times-circle me-1"></i> Reject
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

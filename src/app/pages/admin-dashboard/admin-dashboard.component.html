@@ -1,0 +1,56 @@
+<div class="container">
+  <h2>Add New Marble</h2>
+  <form [formGroup]="marbleForm" (ngSubmit)="onSubmit()" class="marble-form">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input id="name" formControlName="name" placeholder="Enter marble name" />
+      <div *ngIf="marbleForm.get('name')?.invalid && marbleForm.get('name')?.touched" class="error">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input id="price" type="number" formControlName="price" placeholder="Enter price" />
+      <div *ngIf="marbleForm.get('price')?.invalid && marbleForm.get('price')?.touched" class="error">
+        Price must be a positive number.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="favorite">Favorite:</label>
+      <input id="favorite" type="checkbox" formControlName="favorite" />
+    </div>
+
+    <div class="form-group">
+      <label for="stars">Stars (0–5):</label>
+      <input id="stars" type="number" formControlName="stars" placeholder="Enter stars" />
+      <div *ngIf="marbleForm.get('stars')?.invalid && marbleForm.get('stars')?.touched" class="error">
+        Stars must be between 0 and 5.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="image">Image:</label>
+      <input id="image" type="file" (change)="onFileSelected($event)" accept="image/*" />
+      <div *ngIf="marbleForm.get('imageurl')?.value" class="image-preview">
+        <img [src]="marbleForm.get('imageurl')?.value" alt="Preview" />
+      </div>
+      <div *ngIf="marbleForm.get('imageurl')?.invalid && marbleForm.get('imageurl')?.touched" class="error">
+        Image URL is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="descriptions">Descriptions:</label>
+      <textarea id="descriptions" formControlName="descriptions" rows="5" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="marbleForm.invalid || loading">Submit</button>
+      <button type="button" (click)="resetForm()">Reset</button>
+    </div>
+  </form>
+
+  <app-admin-marbels-display></app-admin-marbels-display>
+</div>

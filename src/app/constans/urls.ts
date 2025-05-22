@@ -1,5 +1,7 @@
-const BASE_URL='https://marimexbackend.vercel.app';
+const BASE_URL='marimexbackend.netlify.app';
 export const MARBEL_URL=BASE_URL+'/api/marble';
+export const UPLOAD_Image=BASE_URL+'/api/marble/upload';
+export const COMMANDE=BASE_URL+'/api/commande';
 export const MARBEL_TAGS_URL=MARBEL_URL+'/tags';
 export const MARBEL_BY_SEARCH_URL=MARBEL_URL+'/search/';
 export const MARBEL_BY_TAG_URL=MARBEL_URL+'/tags/';

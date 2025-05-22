@@ -6,6 +6,8 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { NgModule } from '@angular/core';
 import { CartComponent } from './pages/cart/cart.component';
 import { MapsComponent } from './components/maps/maps.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import { DisplayOrdersComponent } from './components/display-orders/display-orders.component';
 
 
 export const routes: Routes = [
@@ -13,6 +15,8 @@ export const routes: Routes = [
     { path: 'products', component: ProductsComponent },
     { path: 'cart', component: CartComponent },
     { path: 'maps', component: MapsComponent },
+  { path: 'admin', component: AdminDashboardComponent },
+  { path: 'admin/orders', component: DisplayOrdersComponent },
 
     { path: 'about', component: AboutComponent },
     { path: 'contact', component: ContactComponent },

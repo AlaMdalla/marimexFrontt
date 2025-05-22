@@ -1,0 +1,310 @@
+/* Container */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  background-color: #f5f6f5;
+  border-radius: 12px;
+}
+
+/* Filter Input */
+.mb-4 {
+  position: relative;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 12px 40px 12px 16px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #a67c52;
+  box-shadow: 0 0 0 0.2rem rgba(166, 124, 82, 0.25);
+  outline: none;
+}
+
+.btn-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+
+.btn-clear:hover {
+  color: #a67c52;
+}
+
+/* Table */
+.table-responsive {
+  margin-top: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table {
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+  padding: 16px;
+  font-size: 15px;
+  border-color: #e5e7eb;
+}
+
+.table-dark {
+  background: linear-gradient(90deg, #1f2937, #374151);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9fafb;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* Sortable Columns */
+.sortable {
+  cursor: pointer;
+  position: relative;
+  padding-right: 36px;
+  transition: background-color 0.2s ease;
+}
+
+.sortable:hover {
+  background-color: #4b5563;
+}
+
+.sorted {
+  font-weight: 700;
+  color: #a67c52;
+}
+
+.arrow-up::after,
+.arrow-down::after {
+  position: absolute;
+  right: 12px;
+  color: #a67c52;
+  font-size: 14px;
+}
+
+.arrow-up::after {
+  content: '↑';
+}
+
+.arrow-down::after {
+  content: '↓';
+}
+
+/* Location Button */
+.location-btn {
+  color: #3b82f6;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.location-btn:hover,
+.location-btn:focus {
+  color: #a67c52;
+  transform: scale(1.15);
+  outline: none;
+}
+
+.location-btn:focus {
+  box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.3);
+}
+
+.location-btn i {
+  font-size: 20px;
+}
+
+/* Action Buttons */
+.actions-container {
+  gap: 10px; /* Space between Validate and Reject */
+}
+
+.action-btn {
+  font-size: 14px;
+  padding: 6px 12px;
+  margin: 1rem;
+  border-radius: 6px;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn:focus {
+  box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.3);
+  outline: none;
+}
+
+.action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-success {
+  background-color: #a67c52;
+  border-color: #a67c52;
+  color: #fff;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #8c6239;
+  border-color: #8c6239;
+}
+
+.btn-success:disabled {
+  background-color: #a67c52;
+  border-color: #a67c52;
+}
+
+.btn-danger {
+  background-color: #7f5539;
+  border-color: #7f5539;
+  color: #fff;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #6b472f;
+  border-color: #6b472f;
+}
+
+.btn-danger:disabled {
+  background-color: #7f5539;
+  border-color: #7f5539;
+}
+
+/* Marble Items */
+.marble-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.marble-img {
+  width: 50px;
+  height: 50px;
+  margin-right: 16px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.marble-img:hover {
+  transform: scale(1.08);
+}
+
+.marble-name {
+  font-size: 15px;
+  color: #1f2937;
+}
+
+/* Other Elements */
+.text-muted {
+  font-style: italic;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.alert {
+  margin-top: 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #e0f2fe;
+  border-color: #bae6fd;
+  color: #075985;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .table th,
+  .table td {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .form-control {
+    font-size: 14px;
+    padding: 10px 36px 10px 12px;
+  }
+
+  .btn-clear {
+    font-size: 14px;
+    right: 10px;
+  }
+
+  .marble-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+  }
+
+  .marble-name {
+    font-size: 14px;
+  }
+
+  .location-btn i {
+    font-size: 18px;
+  }
+
+  .action-btn {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+
+  .actions-container {
+    gap: 8px; /* Slightly smaller gap on tablets */
+  }
+}
+
+@media (max-width: 576px) {
+  .table th,
+  .table td {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .actions-container {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 6px; /* Vertical spacing between buttons */
+  }
+
+  .action-btn {
+    width: 100%;
+    margin: 5 em; 
+    /* Remove margin for clean stacking */
+  }
+}

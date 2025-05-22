@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 import { cart, cartItem } from '../models/cart';
+import { COMMANDE} from './../constans/urls';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +12,7 @@ import { cart, cartItem } from '../models/cart';
 export class CartService {
   private cart: cart = this.getCartFromLocalStorage();
 
-  constructor() {}
+  constructor(private http: HttpClient,private toastr: ToastrService) {}
 
   public addToCart(cartItem: cartItem): void {
     const existingItem = this.cart.cartItems.find(
@@ -70,5 +75,25 @@ export class CartService {
 
   public getCart(): cart {
     return this.cart;
+  }
+ submitOrder(commande: any): void {
+  console.log(commande);
+    this.http.post(COMMANDE, commande).subscribe({
+      
+      next: (response: any) => {
+        if (response.success) {
+          this.toastr.success(response.message, 'Success');
+        } else {
+          this.toastr.error(response.message, 'Error');
+        }
+      },
+      error: (error) => {
+        this.toastr.error('Failed to submit order', 'Error');
+        console.log(error);
+      }
+    });
+  }
+  getAllCommandes(): Observable<any> {
+    return this.http.get(COMMANDE+'/getAll');
   }
 }
