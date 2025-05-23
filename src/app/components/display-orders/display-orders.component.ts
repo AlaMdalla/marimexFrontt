@@ -125,6 +125,14 @@ throw new Error('Method not implemented.');
 }
 
 rejectCommande(commande: any): void {
+  this.cartService.deleteCommande(commande.id).subscribe((next)=>
+    {
+    console.log("deleted")  
+
+  },error=>{
+    console.log(error)
+  }
+)
   // TODO: implement backend call or state update
   console.log('Rejecting commande:', commande);
   // You can also set a `status` field: commande.status = 'rejected';

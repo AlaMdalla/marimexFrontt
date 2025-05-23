@@ -3,7 +3,7 @@ import { cart, cartItem } from '../models/cart';
 import { COMMANDE} from './../constans/urls';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 
 @Injectable({
@@ -96,4 +96,17 @@ export class CartService {
   getAllCommandes(): Observable<any> {
     return this.http.get(COMMANDE+'/getAll');
   }
+    deleteCommande(orderId: string): Observable<void> {
+      const url = COMMANDE + orderId;
+      return this.http.delete<void>(url).pipe(
+        tap(
+          () => {
+            this.toastr.success('order deleted successfully!', 'Delete Successful');
+          },
+          (errorResponse: { error: any; }) => {
+            this.toastr.error(errorResponse.error, 'Delete Failed');
+          }
+        )
+      );
+    }
 }
