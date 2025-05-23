@@ -128,6 +128,7 @@ rejectCommande(commande: any): void {
   this.cartService.deleteCommande(commande.id).subscribe((next)=>
     {
     console.log("deleted")  
+    this.loadCommandes();
 
   },error=>{
     console.log(error)
