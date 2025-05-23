@@ -97,7 +97,7 @@ export class CartService {
     return this.http.get(COMMANDE+'/getAll');
   }
     deleteCommande(orderId: string): Observable<void> {
-      const url = COMMANDE + orderId;
+      const url = COMMANDE +'/'+ orderId;
       return this.http.delete<void>(url).pipe(
         tap(
           () => {
