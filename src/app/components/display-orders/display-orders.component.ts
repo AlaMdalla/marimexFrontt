@@ -4,11 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { MarblesService } from '../../services/marables.service';
 import { ToastrService } from 'ngx-toastr';
+import { ChartConfiguration, ChartType } from 'chart.js';
+import { BaseChartDirective, } from 'ng2-charts'; // ✅ Import this
+
 
 @Component({
   selector: 'app-display-orders',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BaseChartDirective ],
   templateUrl: './display-orders.component.html',
   styleUrls: ['./display-orders.component.scss']
 })
@@ -134,9 +137,20 @@ rejectCommande(commande: any): void {
     console.log(error)
   }
 )
-  // TODO: implement backend call or state update
   console.log('Rejecting commande:', commande);
-  // You can also set a `status` field: commande.status = 'rejected';
 }
+//chartttt
+public chartType: ChartType = 'pie';
 
+  public chartData: ChartConfiguration['data'] = {
+    labels: ['Red', 'Blue', 'Yellow'],
+    datasets: [
+      {
+        label: 'Votes',
+        data: [12, 19, 3],
+        backgroundColor: ['red', 'blue', 'yellow']
+      }
+    ]
+  };
+ 
 }

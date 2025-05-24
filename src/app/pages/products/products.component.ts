@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Marble } from '../../models/marble';
 import { MarblesService } from '../../services/marables.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { FormsModule } from '@angular/forms';
 import { Tag } from '../../models/tag';
 import { cartItem } from '../../models/cart';
 import { CartService } from '../../services/cart.service';
@@ -10,20 +10,19 @@ import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Add FormsModule
+  imports: [CommonModule, FormsModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent {
   isTagMenuOpen = false;
-  marbles: Marble[] = [];
+  marbles: Marble[] = []; // All products from API
   tags: Tag[] = [];
-  visibleProducts: Marble[] = [];
+  visibleProducts: Marble[] = []; // Displayed products after filtering and pagination
+  filteredProducts: Marble[] = []; // Current filtered products (by tag or all)
   selectedProduct: Marble | null = null;
   showModal: boolean = false;
-  searchQuery: string = ''; // Add search query property
-
-  // Load More logic
+  searchQuery: string = '';
   itemsPerPage: number = 6;
   currentPage: number = 1;
 
@@ -35,6 +34,7 @@ export class ProductsComponent {
     this.marbleService.getAll().subscribe({
       next: data => {
         this.marbles = data;
+        this.filteredProducts = [...this.marbles]; // Initialize filteredProducts with all marbles
         console.log('API response:', data);
         this.loadProducts(); // Initial load
       },
@@ -57,43 +57,41 @@ export class ProductsComponent {
   filterByTag(tagName: string) {
     this.isTagMenuOpen = false;
     this.currentPage = 1; // Reset pagination
+    this.searchQuery = ''; // Clear search query to avoid conflicts
     if (tagName === 'all') {
-      this.visibleProducts = [...this.marbles];
-      this.applySearchFilter(); // Apply search filter if any
+      this.filteredProducts = [...this.marbles]; // Reset to all products
     } else {
       this.marbleService.getAllmarbleByTag(tagName).subscribe({
         next: data => {
-          this.visibleProducts = data;
-          this.applySearchFilter(); // Apply search filter if any
+          this.filteredProducts = data; // Update filtered products based on tag
+          this.loadProducts(); // Apply pagination and update visible products
         }
       });
     }
+    this.loadProducts(); // Update visible products
   }
 
   // Search products
   searchProducts() {
     this.currentPage = 1; // Reset pagination
-    this.applySearchFilter();
+    this.loadProducts(); // Update visible products with search applied
   }
 
-  // Apply search filter to visible products
-  applySearchFilter() {
-    if (!this.searchQuery.trim()) {
-      this.loadProducts(); // Reset to original filtered products if search is empty
-      return;
+  // Update visible products based on current filters and pagination
+  loadProducts() {
+    let productsToDisplay = [...this.filteredProducts]; // Start with tag-filtered products
+
+    // Apply search filter if search query exists
+    if (this.searchQuery.trim()) {
+      const query = this.searchQuery.toLowerCase().trim();
+      productsToDisplay = productsToDisplay.filter(product =>
+        product.name.toLowerCase().includes(query) 
+      );
     }
 
-    const query = this.searchQuery.toLowerCase().trim();
-    this.visibleProducts = this.marbles.filter(product =>
-      product.name.toLowerCase().includes(query) ||
-      product.descriptions.includes(query) 
-    ).slice(0, this.currentPage * this.itemsPerPage);
-  }
-
-  loadProducts() {
+    // Apply pagination
     const endIndex = this.currentPage * this.itemsPerPage;
-    this.visibleProducts = this.marbles.slice(0, endIndex);
-    this.applySearchFilter(); // Apply search filter if any
+    this.visibleProducts = productsToDisplay.slice(0, endIndex);
   }
 
   loadMore() {
