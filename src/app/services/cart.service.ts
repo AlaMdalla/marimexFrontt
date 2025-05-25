@@ -3,7 +3,7 @@ import { cart, cartItem } from '../models/cart';
 import { COMMANDE} from './../constans/urls';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 
 @Injectable({
@@ -11,6 +11,7 @@ import { Observable, tap } from 'rxjs';
 })
 export class CartService {
   private cart: cart = this.getCartFromLocalStorage();
+  private cartSubject:BehaviorSubject<cart>= new BehaviorSubject(this.cart);
 
   constructor(private http: HttpClient,private toastr: ToastrService) {}
 
@@ -95,6 +96,9 @@ export class CartService {
   }
   getAllCommandes(): Observable<any> {
     return this.http.get(COMMANDE+'/getAll');
+  }
+    getCartObservable():Observable<cart>{
+    return this.cartSubject.asObservable();
   }
     deleteCommande(orderId: string): Observable<void> {
       const url = COMMANDE +'/'+ orderId;
