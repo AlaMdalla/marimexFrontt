@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserServiceService } from '../../services/user.service.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterModule } from '@angular/router';
-import { IUserLogin } from '../../interfaces/IuserRegister';
+import { IUserLogin } from '../../interfaces/IUserLogin';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+declare const google: any;
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,8 @@ loginForm: FormGroup;
     private fb: FormBuilder,
     private authService: UserServiceService,
     private toastrService: ToastrService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -46,8 +49,33 @@ loginForm: FormGroup;
       },
       error: (error) => {
         this.loading = false;
-        // Error is already handled in AuthService's login method via toastr
+                // Error is already handled in AuthService's login method via toastr
       }
     });
   }
+  
+
+
+
+
+  ngOnInit(): void {
+  google.accounts.id.initialize({
+    client_id: '888458691925-b29803cqn9mdrek15g467jbmb5k1i1it.apps.googleusercontent.com',
+    callback: this.handleCredentialResponse.bind(this),
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById('googleBtn'),
+    { theme: 'outline', size: 'large' }
+  );
 }
+
+handleCredentialResponse(response: any) {
+  const idToken = response.credential;
+  this.authService.googleLogin(idToken).subscribe(() => {
+            this.router.navigate(['/products']);
+
+  })
+    
+   
+}}
