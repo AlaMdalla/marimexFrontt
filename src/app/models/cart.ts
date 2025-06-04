@@ -3,6 +3,8 @@ import { Marble } from "./marble";
 export  class cart{
 
     cartItems:cartItem[]=[];
+        items :cartItem[]=[];
+
   totalPrice!: number;
   totalCount!: number;
     constructor (){
