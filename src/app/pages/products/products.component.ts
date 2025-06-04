@@ -113,9 +113,12 @@ export class ProductsComponent {
   }
 
   addToCart(marble: Marble | null) {
+    console.log('Adding to cart:');
     if (marble) {
+      console.log('Adding to cart:', marble);
       const cartItem0 = new cartItem(marble, 1);
       this.cartService.addToCart(cartItem0);
     }
+    console.log('Cart updated:', );
   }
 }

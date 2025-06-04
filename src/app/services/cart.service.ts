@@ -16,9 +16,12 @@ export class CartService {
   constructor(private http: HttpClient,private toastr: ToastrService) {}
 
   public addToCart(cartItem: cartItem): void {
+    console.log('Adding to cart:', cartItem);
     const existingItem = this.cart.cartItems.find(
       item => item.marbel.id === cartItem.marbel.id
     );
+          console.log('existingItem:', existingItem)
+
 
     if (existingItem) {
       existingItem.count += cartItem.count;
