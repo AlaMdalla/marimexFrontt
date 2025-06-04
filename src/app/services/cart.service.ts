@@ -44,9 +44,8 @@ export class CartService {
   }
 
   public removeFromCart(itemId: string): void {
-    const items = this.cart.cartItems || this.cart.items || [];
 
-    this.cart.cartItems = items.filter(
+    this.cart.cartItems = this.cart.cartItems.filter(
       item => item.marbel.id !== itemId
     );
     this.updateCartTotals();
