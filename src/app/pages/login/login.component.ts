@@ -53,22 +53,29 @@ loginForm: FormGroup;
       }
     });
   }
-  
+
 
 
 
 
   ngOnInit(): void {
-  google.accounts.id.initialize({
-    client_id: '888458691925-b29803cqn9mdrek15g467jbmb5k1i1it.apps.googleusercontent.com',
-    callback: this.handleCredentialResponse.bind(this),
-  });
+    // Wait for the Google Sign-In script to load
+    const checkGoogleScript = setInterval(() => {
+      if (typeof google !== 'undefined' && google.accounts) {
+        clearInterval(checkGoogleScript);
 
-  google.accounts.id.renderButton(
-    document.getElementById('googleBtn'),
-    { theme: 'outline', size: 'large' }
-  );
-}
+        google.accounts.id.initialize({
+          client_id: '888458691925-b29803cqn9mdrek15g467jbmb5k1i1it.apps.googleusercontent.com',
+          callback: this.handleCredentialResponse.bind(this),
+        });
+
+        google.accounts.id.renderButton(
+          document.getElementById('googleBtn'),
+          { theme: 'outline', size: 'large' }
+        );
+      }
+    }, 100);
+  }
 
 handleCredentialResponse(response: any) {
   const idToken = response.credential;
@@ -76,6 +83,6 @@ handleCredentialResponse(response: any) {
             this.router.navigate(['/products']);
 
   })
-    
-   
+
+
 }}
