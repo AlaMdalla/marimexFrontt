@@ -25,18 +25,27 @@ export class RegisterComponent implements OnInit {
     private userService: UserServiceService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    
+
   ) {}
 
   async ngOnInit(): Promise<void> {
-    google.accounts.id.initialize({
-      client_id: '888458691925-b29803cqn9mdrek15g467jbmb5k1i1it.apps.googleusercontent.com',
-      callback: this.handleCredentialResponse.bind(this),
-    }); 
-  google.accounts.id.renderButton(
-      document.getElementById('googleBtn'),
-      { theme: 'outline', size: 'large' }
-    ); 
+    // Wait for the Google Sign-In script to load
+    const checkGoogleScript = setInterval(() => {
+      if (typeof google !== 'undefined' && google.accounts) {
+        clearInterval(checkGoogleScript);
+
+        google.accounts.id.initialize({
+          client_id: '888458691925-b29803cqn9mdrek15g467jbmb5k1i1it.apps.googleusercontent.com',
+          callback: this.handleCredentialResponse.bind(this),
+        });
+
+        google.accounts.id.renderButton(
+          document.getElementById('googleBtn'),
+          { theme: 'outline', size: 'large' }
+        );
+      }
+    }, 100);
+
     this.RegisterForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
       email: ['', [Validators.required, Validators.email]],
@@ -47,8 +56,7 @@ export class RegisterComponent implements OnInit {
     });
 
     this.returnURL = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
-
- }
+  }
     handleCredentialResponse(response: any) {
     const idToken = response.credential;
     this.userService.googleLogin(idToken).subscribe(() => {
@@ -77,9 +85,9 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  
 
-  
+
+
 }
 function PasswordMatchValidator(_arg0: string, _arg1: string): any {
   throw new Error('Function not implemented.');
