@@ -9,3 +9,4 @@ export const MARBEL_BY_ID_URL=MARBEL_URL+'/';
 export const USER_LOGIN_URL=BASE_URL+'/api/users/login';
 export const USER_REGISTER_URL=BASE_URL+'/api/users/register';
 export const MARBEL_AddMARBEL_URL=MARBEL_URL+'/create';
+export const GOOGLE_AUTH_URL=BASE_URL+'/api/users/api/auth/google';

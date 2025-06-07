@@ -53,29 +53,48 @@ loginForm: FormGroup;
       }
     });
   }
-  
+
 
 
 
 
   ngOnInit(): void {
-  google.accounts.id.initialize({
-    client_id: '888458691925-b29803cqn9mdrek15g467jbmb5k1i1it.apps.googleusercontent.com',
-    callback: this.handleCredentialResponse.bind(this),
-  });
+    const clientId = '888458691925-b29803cqn9mdrek15g467jbmb5k1i1it.apps.googleusercontent.com';
 
-  google.accounts.id.renderButton(
-    document.getElementById('googleBtn'),
-    { theme: 'outline', size: 'large' }
-  );
+    google.accounts.id.initialize({
+      client_id: clientId,
+      callback: this.handleCredentialResponse.bind(this),
+      auto_select: false,
+      cancel_on_tap_outside: true
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById('googleBtn'),
+      {
+        theme: 'outline',
+        size: 'large',
+        width: 250,
+        text: 'signin_with'
+      }
+    );
+  }
+
+  handleCredentialResponse(response: any) {
+    if (!response.credential) {
+      this.toastrService.error('Failed to get Google credentials', 'Login Failed');
+      return;
+    }
+
+    this.loading = true;
+    this.authService.googleLogin(response.credential).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigate(['/products']);
+      },
+      error: (error) => {
+        this.loading = false;
+        // Error is already handled in the service
+      }
+    });
+  }
 }
-
-handleCredentialResponse(response: any) {
-  const idToken = response.credential;
-  this.authService.googleLogin(idToken).subscribe(() => {
-            this.router.navigate(['/products']);
-
-  })
-    
-   
-}}
