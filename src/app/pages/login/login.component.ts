@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserServiceService } from '../../services/user.service.service';
 import { ToastrService } from 'ngx-toastr';
@@ -32,33 +32,8 @@ loginForm: FormGroup;
     });
   }
 
-  onSubmit() {
-    if (this.loginForm.invalid) {
-      this.toastrService.error('Please fill in all required fields correctly.', 'Invalid Input');
-      return;
-    }
-
-    this.loading = true;
-    this.errorMessage = null;
-
-    const userLogin: IUserLogin = this.loginForm.value;
-    this.authService.login(userLogin).subscribe({
-      next: () => {
-        this.loading = false;
-        this.router.navigate(['/products']);
-      },
-      error: (error) => {
-        this.loading = false;
-                // Error is already handled in AuthService's login method via toastr
-      }
-    });
-  }
-
-
-
-
-
   ngOnInit(): void {
+    // Initialize Google Sign-In
     const clientId = '888458691925-b29803cqn9mdrek15g467jbmb5k1i1it.apps.googleusercontent.com';
 
     google.accounts.id.initialize({
@@ -79,6 +54,28 @@ loginForm: FormGroup;
     );
   }
 
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      this.toastrService.error('Please fill in all required fields correctly.', 'Invalid Input');
+      return;
+    }
+
+    this.loading = true;
+    this.errorMessage = null;
+
+    const userLogin: IUserLogin = this.loginForm.value;
+    this.authService.login(userLogin).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigate(['/products']);
+      },
+      error: (error) => {
+        this.loading = false;
+        // Error is already handled in AuthService's login method via toastr
+      }
+    });
+  }
+
   handleCredentialResponse(response: any) {
     if (!response.credential) {
       this.toastrService.error('Failed to get Google credentials', 'Login Failed');
@@ -93,7 +90,7 @@ loginForm: FormGroup;
       },
       error: (error) => {
         this.loading = false;
-        // Error is already handled in the service
+        // Error is already handled in AuthService's googleLogin method via toastr
       }
     });
   }

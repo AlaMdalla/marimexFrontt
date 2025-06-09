@@ -25,7 +25,7 @@ export class UserServiceService {
  return this.http.post<User>(USER_LOGIN_URL, userLogin).pipe(
   tap({
     next: (user)=>{
-      this.serUserToLocalStorage(user);
+      this.setUserToLocalStorage(user);
    this.userSubject.next(user);
    this.toastrService.success(
 
@@ -47,7 +47,7 @@ this.toastrService.error(errorResponse.error,'Login Failed');
     return this.http.post<User>(USER_REGISTER_URL,userRegister).pipe(
       tap({
         next: (user)=>{
-          this.serUserToLocalStorage(user);
+          this.setUserToLocalStorage(user);
    this.userSubject.next(user);
    this.toastrService.success(
 
@@ -66,7 +66,7 @@ this.toastrService.error(errorResponse.error,'Login Failed');
     )
      }
 
-  private serUserToLocalStorage(user:User){
+  private setUserToLocalStorage(user:User){
     localStorage.setItem(UserKey,JSON.stringify(user));
   }
   private getUserFromLocalStorage():User{
@@ -82,13 +82,16 @@ window.location.reload();   }
 private redirectUrl: string = '/';
 
 googleLogin(token: string): Observable<User> {
-  return this.http.post<any>(GOOGLE_AUTH_URL, { token }).pipe(
+  console.log('Attempting Google login with token:', token.substring(0, 10) + '...');
+  return this.http.post<User>(GOOGLE_AUTH_URL, { token }).pipe(
     tap({
       next: (user) => {
+        console.log('Google login successful:', user);
         if (!user || !user.token) {
+          console.error('Invalid user response:', user);
           throw new Error('Invalid response from server');
         }
-        this.serUserToLocalStorage(user);
+        this.setUserToLocalStorage(user);
         this.userSubject.next(user);
         this.toastrService.success(
           `Welcome to marimex ${user.name}!`,
@@ -96,6 +99,11 @@ googleLogin(token: string): Observable<User> {
         );
       },
       error: (errorResponse) => {
+        console.error('Google login error:', {
+          status: errorResponse.status,
+          error: errorResponse.error,
+          message: errorResponse.message
+        });
         const errorMessage = errorResponse.error?.error || 'Google login failed';
         this.toastrService.error(errorMessage, 'Login Failed');
         throw errorResponse;
