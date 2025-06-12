@@ -1,4 +1,3 @@
-<!-- Container -->
 <div class="container">
   <div class="collection-header">
     <h1>Our Collection</h1>
@@ -31,21 +30,21 @@
       </svg>
     </div>
 
-<div class="tag-filter">
-  <button class="tag-filter-btn" (click)="toggleTagMenu()">
-    Filter by Tag
-    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#666">
-      <path d="M7 10l5 5 5-5z"/>
-    </svg>
-  </button>
-  <div class="tag-filter-menu" [ngClass]="{'active': isTagMenuOpen}">
-    <button class="tag-filter-option" *ngFor="let tag of tags" (click)="filterByTag(tag.name)">
-      {{ tag.name }}
-      {{tag.count}}
-    </button>
+    <div class="tag-filter">
+      <button class="tag-filter-btn" (click)="toggleTagMenu()">
+        Filter by Tag
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#666">
+          <path d="M7 10l5 5 5-5z"/>
+        </svg>
+      </button>
+      <div class="tag-filter-menu" [ngClass]="{'active': isTagMenuOpen}">
+        <button class="tag-filter-option" *ngFor="let tag of tags" (click)="filterByTag(tag.name)">
+          {{ tag.name }}
+          {{tag.count}}
+        </button>
+      </div>
+    </div>
   </div>
-</div>
-
 
   <div class="products-grid">
     <div class="product-card" *ngFor="let marabel of visibleProducts">
@@ -57,7 +56,6 @@
       <div class="product-info">
         <h3 class="product-title">{{ marabel.name }}</h3>
         <p class="product-description">{{ marabel.descriptions }}</p>
-      <!-- <div class="product-price">{{ marabel.price }}</div>--> 
       </div>
     </div>
   </div>
@@ -82,7 +80,6 @@
       </div>
       <div class="modal-right">
         <h2 class="modal-product-title">{{ selectedProduct?.name }}</h2>
-      <!--  <div class="modal-product-price">{{ selectedProduct?.price }}</div> -->
         <div class="modal-product-description">
           <p>{{ selectedProduct?.descriptions }}</p>
         </div>

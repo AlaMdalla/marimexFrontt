@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MarblesService } from '../../services/marables.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { Marble } from '../../models/marble';
 
 @Component({
   selector: 'app-admin-marbels-display',
@@ -11,19 +13,24 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './admin-marbels-display.component.scss',
 })
 export class AdminMarbelsDisplayComponent {
-  marbles: any[] = [];
-  filteredMarbles: any[] = [];
-  paginatedMarbles: any[] = [];
+  @Output() editMarble = new EventEmitter<Marble>();
+  marbles: Marble[] = [];
+  filteredMarbles: Marble[] = [];
+  paginatedMarbles: Marble[] = [];
   tags: any[] = [];
   searchTerm = '';
-  sortBy = 'name';
+  //sortBy = stars;
   loading = false;
   currentPage = 1;
   pageSize = 5;
   totalPages = 1;
   pageNumbers: number[] = [];
 
-  constructor(private marbleService: MarblesService, private toastr: ToastrService) {}
+  constructor(
+    private marbleService: MarblesService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.fetchMarbles();
@@ -38,7 +45,7 @@ export class AdminMarbelsDisplayComponent {
         this.marbles = data;
         this.filteredMarbles = data;
         this.updatePagination();
-        this.sortMarbles();
+      //  this.sortMarbles();
         this.loading = false;
       },
       error: (error) => {
@@ -62,19 +69,19 @@ export class AdminMarbelsDisplayComponent {
     console.log('Filtered marbles:', this.filteredMarbles);
     this.currentPage = 1;
     this.updatePagination();
-    this.sortMarbles();
+   // this.sortMarbles();
   }
-
+/*
   sortMarbles(): void {
     this.filteredMarbles.sort((a, b) => {
       if (this.sortBy === 'price' || this.sortBy === 'stars') {
         return a[this.sortBy] - b[this.sortBy];
       }
-      return a[this.sortBy].localeCompare(b[this.sortBy]);
+        return a[this.sortBy].localeCompare(b[this.sortBy]);
     });
     console.log('Sorted marbles:', this.filteredMarbles);
     this.updatePagination();
-  }
+  }*/
 
   deleteMarble(id: string): void {
     if (confirm('Are you sure you want to delete this marble?')) {
@@ -91,6 +98,10 @@ export class AdminMarbelsDisplayComponent {
         },
       });
     }
+  }
+
+  onEdit(marble: Marble): void {
+    this.router.navigate(['admin/edit/', marble.id]);
   }
 
   updatePagination(): void {
@@ -126,4 +137,8 @@ export class AdminMarbelsDisplayComponent {
       this.updatePagination();
     }
   }
+  navigateToUpdateMarble(marbleId: string) {
+    this.router.navigate(['admin/edit/', marbleId]);
+  }
 }
+

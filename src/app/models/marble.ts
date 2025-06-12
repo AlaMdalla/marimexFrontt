@@ -5,7 +5,7 @@ export class Marble{
     tags?:string[];//?optional
     favorite!:boolean;
     stars!:number;
-    imageurl!:string;
+    imageurl?:string;
     descriptions!:string[];
 
 

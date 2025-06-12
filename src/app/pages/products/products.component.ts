@@ -85,7 +85,7 @@ export class ProductsComponent {
     if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase().trim();
       productsToDisplay = productsToDisplay.filter(product =>
-        product.name.toLowerCase().includes(query) 
+        product.name.toLowerCase().includes(query)
       );
     }
 

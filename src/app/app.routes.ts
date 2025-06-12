@@ -10,7 +10,7 @@ import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard
 import { DisplayOrdersComponent } from './components/display-orders/display-orders.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
-
+import { EditMarbleComponent } from './pages/edit-marble/edit-marble.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -19,14 +19,13 @@ export const routes: Routes = [
     { path: 'maps', component: MapsComponent },
     { path: 'admin', component: AdminDashboardComponent },
     { path: 'admin/orders', component: DisplayOrdersComponent },
+    { path: 'admin/edit/:id', component: EditMarbleComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-
     { path: 'about', component: AboutComponent },
     { path: 'contact', component: ContactComponent },
     { path: '**', redirectTo: '' }
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

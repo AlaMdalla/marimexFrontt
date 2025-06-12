@@ -16,7 +16,7 @@ export class MarblesService {
   }
 
   constructor(private http: HttpClient ,private toastrService: ToastrService) {
-    
+
     try {
       console.log('MarbleService instantiated, HttpClient:', this.http);
     } catch (e) {
@@ -31,13 +31,13 @@ export class MarblesService {
   }
   getAllTags():Observable<Tag[]>{
     return this.http.get<Tag[]>(MARBEL_TAGS_URL);  }
-   
+
   getAllmarbleByTag(tag: string) : Observable<Marble[]> {
 
      return  tag ==="All" ?
     this.getAll():
     this.http.get<Marble[]>(MARBEL_BY_TAG_URL +tag);
-     
+
   }
   uploadImage(file: File): Observable<any> {
     const formData = new FormData();
@@ -71,12 +71,14 @@ export class MarblesService {
       )
     );
   }
-  updateMarble(marbleId: string, updatedMarble: Marble): Observable<Marble> {
-    const url = MARBEL_BY_ID_URL + marbleId;
-    return this.http.put<Marble>(url, updatedMarble).pipe(
+  updateMarble(marbleId: string, marble: ImarbelAdd): Observable<Marble> {
+    return this.http.put<Marble>(`${MARBEL_URL}/${marbleId}`, marble).pipe(
       tap(
         (updatedMarble) => {
-          this.toastrService.success('Marble updated successfully!', 'Update Successful');
+          this.toastrService.success(
+            `Marble ${updatedMarble.name} updated successfully!`,
+            'Update Successful'
+          );
         },
         (errorResponse) => {
           this.toastrService.error(errorResponse.error, 'Update Failed');

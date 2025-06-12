@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>{{ isUpdateMode ? 'Update Marble' : 'Add New Marble' }}</h2>
+  <h2>Edit Marble</h2>
   <form [formGroup]="marbleForm" (ngSubmit)="onSubmit()" class="marble-form">
     <div class="form-group">
       <label for="name">Name:</label>
@@ -44,14 +44,14 @@
     <div class="form-group">
       <label for="descriptions">Descriptions:</label>
       <textarea id="descriptions" formControlName="descriptions" rows="5" placeholder="Enter description"></textarea>
+      <div *ngIf="marbleForm.get('descriptions')?.invalid && marbleForm.get('descriptions')?.touched" class="error">
+        Description is required.
+      </div>
     </div>
 
     <div class="form-actions">
-      <button type="submit" [disabled]="marbleForm.invalid || loading">
-        {{ isUpdateMode ? 'Update' : 'Submit' }}
-      </button>
-      <button type="button" (click)="resetForm()">Reset</button>
+      <button type="submit" [disabled]="marbleForm.invalid || loading">Update</button>
+      <button type="button" (click)="cancel()">Cancel</button>
     </div>
   </form>
-  <app-admin-marbels-display></app-admin-marbels-display>
 </div>

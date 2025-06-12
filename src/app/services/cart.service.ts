@@ -82,9 +82,10 @@ export class CartService {
     return this.cart;
   }
  submitOrder(commande: any): void {
-  console.log(commande);
+  console.log('khaltet:');
+  console.log('Submitting order with payload:', commande);
     this.http.post(COMMANDE, commande).subscribe({
-      
+
       next: (response: any) => {
         if (response.success) {
           this.toastr.success(response.message, 'Success');
@@ -93,8 +94,9 @@ export class CartService {
         }
       },
       error: (error) => {
-        this.toastr.error('Failed to submit order', 'Error');
-        console.log(error);
+        //console.error('Order submission error:', error);
+        const errorMessage = error.error?.message || 'Failed to submit order';
+        this.toastr.error(errorMessage, 'Error');
       }
     });
   }
