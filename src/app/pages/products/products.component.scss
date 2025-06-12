@@ -356,9 +356,9 @@
 .add-to-cart {
   width: 100%;
   padding: 1rem;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
   border-radius: var(--border-radius);
   font-size: 1rem;
   font-weight: 500;
@@ -367,9 +367,11 @@
 }
 
 .add-to-cart:hover {
-  background-color: var(--primary-dark);
+  background-color: var(--primary-color); /* #a67c52 (light brown) */
+  color: var(--text-dark); /* #2c3e50 (dark blue-gray) for contrast */
+  box-shadow: 0 2px 8px var(--shadow-medium);
+  transform: translateY(-1px);
 }
-
 @media (max-width: 768px) {
   .collection-header h1 {
     font-size: 2rem;
