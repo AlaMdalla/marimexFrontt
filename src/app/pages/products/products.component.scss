@@ -275,7 +275,7 @@
 }
 
 .modal-content {
-  background-color: var(--card-background);
+  background-color: white;
   border-radius: var(--border-radius-lg);
   width: 90%;
   max-width: 900px;
@@ -329,6 +329,7 @@
 
 .modal-right {
   flex: 1;
+
 }
 
 .modal-image {
