@@ -73,7 +73,7 @@ export class RegisterComponent implements OnInit {
       ConfirmPassword: fv.ConfirmPassword,
     };
 
-    this.userService.Register(user).subscribe(_ => {
+    this.userService.register(user).subscribe(_ => {
       this.router.navigateByUrl(this.returnURL);
     });
   }
