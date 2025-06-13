@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserServiceService } from '../../services/user.service.service';
 import { IUserRegister } from '../../interfaces/IuserRegister';
-import { loadGapiInsideDOM,  } from 'gapi-script';
 import { CommonModule } from '@angular/common';
 declare const google: any;
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule,CommonModule,ReactiveFormsModule,RouterModule],
-
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss'],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+
 })
 export class RegisterComponent implements OnInit {
   RegisterForm!: FormGroup;
@@ -24,19 +23,20 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserServiceService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
     google.accounts.id.initialize({
       client_id: '888458691925-b29803cqn9mdrek15g467jbmb5k1i1it.apps.googleusercontent.com',
       callback: this.handleCredentialResponse.bind(this),
-    }); 
-  google.accounts.id.renderButton(
+    });
+
+    google.accounts.id.renderButton(
       document.getElementById('googleBtn'),
       { theme: 'outline', size: 'large' }
-    ); 
+    );
+
     this.RegisterForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
       email: ['', [Validators.required, Validators.email]],
@@ -47,9 +47,9 @@ export class RegisterComponent implements OnInit {
     });
 
     this.returnURL = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+  }
 
- }
-    handleCredentialResponse(response: any) {
+  handleCredentialResponse(response: any) {
     const idToken = response.credential;
     this.userService.googleLogin(idToken).subscribe(() => {
       this.router.navigate(['/products']);
@@ -72,16 +72,35 @@ export class RegisterComponent implements OnInit {
       password: fv.password,
       ConfirmPassword: fv.ConfirmPassword,
     };
+
     this.userService.Register(user).subscribe(_ => {
       this.router.navigateByUrl(this.returnURL);
     });
   }
-
-  
-
-  
-}
-function PasswordMatchValidator(_arg0: string, _arg1: string): any {
-  throw new Error('Function not implemented.');
 }
 
+// ✅ Password Match Validator
+export function PasswordMatchValidator(password: string, confirmPassword: string): ValidatorFn {
+  return (formGroup: AbstractControl): { [key: string]: any } | null => {
+    const passwordControl = formGroup.get(password);
+    const confirmPasswordControl = formGroup.get(confirmPassword);
+
+    if (!passwordControl || !confirmPasswordControl) return null;
+
+    if (passwordControl.value !== confirmPasswordControl.value) {
+      confirmPasswordControl.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    } else {
+      const errors = confirmPasswordControl.errors;
+      if (errors) {
+        delete errors['passwordMismatch'];
+        if (Object.keys(errors).length === 0) {
+          confirmPasswordControl.setErrors(null);
+        } else {
+          confirmPasswordControl.setErrors(errors);
+        }
+      }
+      return null;
+    }
+  };
+}
