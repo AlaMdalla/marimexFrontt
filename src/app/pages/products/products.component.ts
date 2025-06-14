@@ -134,5 +134,5 @@ export class ProductsComponent {
       this.cartService.addToCart(cartItem0);
     }
   }
-  
+
 }

@@ -11,14 +11,15 @@ import { DisplayOrdersComponent } from './components/display-orders/display-orde
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { EditMarbleComponent } from './pages/edit-marble/edit-marble.component';
+import { AdminGuard } from './services/admin.guard';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'products', component: ProductsComponent },
     { path: 'cart', component: CartComponent },
     { path: 'maps', component: MapsComponent },
-    { path: 'admin', component: AdminDashboardComponent },
-    { path: 'admin/orders', component: DisplayOrdersComponent },
+    { path: 'admin', component: AdminDashboardComponent ,  canActivate: [AdminGuard]},
+    { path: 'admin/orders', component: DisplayOrdersComponent ,  canActivate: [AdminGuard]},
     { path: 'admin/edit/:id', component: EditMarbleComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
