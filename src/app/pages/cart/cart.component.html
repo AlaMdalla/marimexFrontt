@@ -1,10 +1,10 @@
 <div class="cart-container">
   <div class="cart-header">
-    <h1>Your Cart</h1>
-    <p *ngIf="cartItems.length > 0" class="cart-count">{{ cartItems.length }} {{ cartItems.length === 1 ? 'item' : 'items' }} in your cart</p>
+    <h1>Votre Panier</h1>
+    <p *ngIf="cartItems.length > 0" class="cart-count">{{ cartItems.length }} {{ cartItems.length === 1 ? 'article' : 'articles' }} dans votre panier</p>
   </div>
 
-  <!-- Empty Cart State -->
+  <!-- Panier vide -->
   <div class="empty-cart" *ngIf="cartItems.length === 0">
     <div class="empty-cart-icon">
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a67c52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -12,12 +12,12 @@
         <path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1"/>
       </svg>
     </div>
-    <h2>Your Cart Feels Light</h2>
-    <p>No marbles collected yet—let's find your perfect piece.</p>
-    <a routerLink="/products" class="continue-shopping-btn">Explore Collection</a>
+    <h2>Votre Panier Est Vide</h2>
+    <p>Aucun article ajouté encore - trouvons votre pièce parfaite.</p>
+    <a routerLink="/products" class="continue-shopping-btn">Explorer la Collection</a>
   </div>
 
-  <!-- Cart Items -->
+  <!-- Articles du panier -->
   <div class="cart-content" *ngIf="cartItems.length > 0">
     <div class="cart-items">
       <div class="cart-item" *ngFor="let item of cartItems">
@@ -26,7 +26,7 @@
         </div>
         <div class="item-details">
           <h3 class="product-name">{{ item.marbel.name }}</h3>
-          <p class="product-price">${{ item.marbel.price | number:'1.2-2' }}</p>
+          <p class="product-price">{{ item.marbel.price | number:'1.2-2' }} €</p>
           <div class="quantity-control">
             <button class="quantity-btn" (click)="decreaseQuantity(item)" [disabled]="item.count <= 1">
               <svg width="12" height="2" viewBox="0 0 12 2" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="item-total">
-          <span>${{ (item.marbel.price * item.count) | number:'1.2-2' }}</span>
+          <span>{{ (item.marbel.price * item.count) | number:'1.2-2' }} €</span>
         </div>
         <button class="remove-item" (click)="removeItem(item)">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,38 +53,36 @@
     </div>
 
     <div class="cart-summary">
-      <h3 class="summary-title">Order Summary</h3>
-      
+      <h3 class="summary-title">Récapitulatif de Commande</h3>
+
       <div class="summary-totals">
         <div class="summary-row">
-          <span>Subtotal</span>
-          <span class="amount">${{ calculateSubtotal() | number:'1.2-2' }}</span>
+          <span>Sous-total</span>
+          <span class="amount">{{ calculateSubtotal() | number:'1.2-2' }} €</span>
         </div>
         <div class="summary-row shipping-note">
-          <span>Shipping calculated at checkout</span>
+          <span>Frais de livraison calculés à la validation</span>
         </div>
         <div class="summary-row total">
-          <span>Estimated Total</span>
-          <span class="amount">${{ calculateSubtotal() | number:'1.2-2' }}</span>
+          <span>Total Estimé</span>
+          <span class="amount">{{ calculateSubtotal() | number:'1.2-2' }} €</span>
         </div>
       </div>
       <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input type="test" id="phone" [(ngModel)]="number_of_phone" placeholder="+216 (___) ___-____" required>
-         <label for="phone">order by</label>
-        <input type="test" id="name" [(ngModel)]="order_name" placeholder="your name" required>
+        <label for="phone">Numéro de Téléphone</label>
+        <input type="text" id="phone" [(ngModel)]="number_of_phone" placeholder="+216 (___) ___-____" required>
+         <label for="phone">Commander par</label>
+        <input type="text" id="name" [(ngModel)]="order_name" placeholder="Votre nom" required>
       </div>
       <button class="location-btn" (click)="openMap()">
- select ur location
+        Sélectionner votre localisation
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#a67c52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#a67c52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-
-
       </button>
-      <button class="checkout-btn" (click)="submitOrder()">Proceed to Checkout</button>
-      <a routerLink="/products" class="continue-shopping-link">Continue Shopping</a>
+      <button class="checkout-btn" (click)="submitOrder()">Passer la Commande</button>
+      <a routerLink="/products" class="continue-shopping-link">Continuer vos Achats</a>
     </div>
   </div>
 </div>

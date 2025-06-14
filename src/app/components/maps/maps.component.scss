@@ -1,59 +1,164 @@
 .map-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.map-container {
+  width: 90%;
+  max-width: 800px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Search container styles */
+.map-search-container {
+  display: flex;
+  padding: 16px;
+  gap: 12px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.map-search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #a67c52;
+    box-shadow: 0 0 0 2px rgba(166, 124, 82, 0.2);
   }
-  
-  .map-container {
-    width: 90%;
-    max-width: 800px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+}
+
+.map-current-location-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  background-color: #f8f9fa;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  color: #3c4043;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f1f3f4;
+    border-color: #d2e3fc;
   }
-  
-  .map-buttons {
-    display: flex;
-    justify-content: flex-end;
-    padding: 16px;
-    border-top: 1px solid #eaeaea;
+
+  .location-icon {
+    font-size: 16px;
   }
-  
-  .map-buttons button {
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-left: 12px;
+}
+
+/* Map element styles */
+#map {
+  height: 60vh;
+  width: 100%;
+}
+
+/* Buttons container styles */
+.map-buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  border-top: 1px solid #eaeaea;
+}
+
+.map-buttons button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 12px;
+  font-size: 14px;
+}
+
+.map-buttons button:first-child {
+  background-color: #a67c52;
+  color: white;
+  border: none;
+
+  &:hover {
+    background-color: #8c6842;
   }
-  
-  .map-buttons button:first-child {
-    background-color: #a67c52;
-    color: white;
-    border: none;
-  }
-  
-  .map-buttons button:first-child:hover {
-    background-color: #a67c52;
-  }
-  
-  .map-buttons button:last-child {
-    background-color: transparent;
-    color: #5f6368;
-    border: 1px solid #dadce0;
-  }
-  
-  .map-buttons button:last-child:hover {
+}
+
+.map-buttons button:last-child {
+  background-color: transparent;
+  color: #5f6368;
+  border: 1px solid #dadce0;
+
+  &:hover {
     background-color: #f1f3f4;
   }
+}
+.search-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.suggestion-icon {
+  margin-right: 12px;
+  color: #757575;
+}
+
+.suggestion-text {
+  flex: 1;
+}
+
+.main-text {
+  font-weight: 500;
+  color: #212121;
+}
+
+.secondary-text {
+  font-size: 12px;
+  color: #757575;
+  margin-top: 2px;
+}

@@ -1,10 +1,20 @@
 <div class="map-backdrop" (click)="close()">
-    <div class="map-container" (click)="$event.stopPropagation()">
-      <div #map style="height: 80vh; width: 100%"></div>
-      <div class="map-buttons">
-        <button class="map-btn" (click)="validateLocation()">Validate</button>
-        <button class="map-btn" (click)="close()">Cancel</button>
-      </div>
+  <div class="map-container" (click)="$event.stopPropagation()">
+    <!-- Search Bar with Suggestions -->
+    <div class="map-search-container">
+     
+      <button class="map-current-location-btn" (click)="getCurrentLocation()">
+        <i class="location-icon">📍</i> Ma position
+      </button>
+    </div>
+
+    <!-- Map -->
+    <div #map style="height: 60vh; width: 100%"></div>
+
+    <!-- Action Buttons -->
+    <div class="map-buttons">
+      <button class="map-btn" (click)="validateLocation()">Valider</button>
+      <button class="map-btn" (click)="close()">Annuler</button>
     </div>
   </div>
-  
+</div>
