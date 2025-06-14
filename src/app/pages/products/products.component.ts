@@ -16,82 +16,99 @@ import { CartService } from '../../services/cart.service';
 })
 export class ProductsComponent {
   isTagMenuOpen = false;
-  marbles: Marble[] = []; // All products from API
+  marbles: Marble[] = [];
   tags: Tag[] = [];
-  visibleProducts: Marble[] = []; // Displayed products after filtering and pagination
-  filteredProducts: Marble[] = []; // Current filtered products (by tag or all)
+  visibleProducts: Marble[] = [];
+  filteredProducts: Marble[] = [];
   selectedProduct: Marble | null = null;
   showModal: boolean = false;
   searchQuery: string = '';
   itemsPerPage: number = 6;
   currentPage: number = 1;
+  totalPages: number = 1;
+  totalPagesArray: number[] = [];
 
-  constructor(private marbleService: MarblesService, private cartService: CartService) {
-    console.log('ProductsComponent injecting MarblesService');
-  }
+  constructor(
+    private marbleService: MarblesService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit() {
+    this.loadProductsData();
+    this.loadTags();
+  }
+
+  loadProductsData() {
     this.marbleService.getAll().subscribe({
-      next: data => {
+      next: (data) => {
         this.marbles = data;
-        this.filteredProducts = [...this.marbles]; // Initialize filteredProducts with all marbles
-        console.log('API response:', data);
-        this.loadProducts(); // Initial load
+        this.filteredProducts = [...this.marbles];
+        this.loadProducts();
       },
-      error: error => console.error('API error:', error)
+      error: (error) => console.error('API error:', error)
     });
+  }
+
+  loadTags() {
     this.marbleService.getAllTags().subscribe({
-      next: data => {
+      next: (data) => {
         this.tags = data.sort((a, b) => b.count - a.count);
-        console.log('tags', this.tags);
       }
     });
   }
 
   toggleTagMenu() {
     this.isTagMenuOpen = !this.isTagMenuOpen;
-    console.log('Tag menu toggled:', this.isTagMenuOpen);
   }
 
-  // Filter products by tag
   filterByTag(tagName: string) {
     this.isTagMenuOpen = false;
-    this.currentPage = 1; // Reset pagination
-    this.searchQuery = ''; // Clear search query to avoid conflicts
+    this.currentPage = 1;
+    this.searchQuery = '';
+
     if (tagName === 'all') {
-      this.filteredProducts = [...this.marbles]; // Reset to all products
+      this.filteredProducts = [...this.marbles];
+      this.loadProducts();
     } else {
       this.marbleService.getAllmarbleByTag(tagName).subscribe({
-        next: data => {
-          this.filteredProducts = data; // Update filtered products based on tag
-          this.loadProducts(); // Apply pagination and update visible products
+        next: (data) => {
+          this.filteredProducts = data;
+          this.loadProducts();
         }
       });
     }
-    this.loadProducts(); // Update visible products
   }
 
-  // Search products
   searchProducts() {
-    this.currentPage = 1; // Reset pagination
-    this.loadProducts(); // Update visible products with search applied
+    this.currentPage = 1;
+    this.loadProducts();
   }
 
-  // Update visible products based on current filters and pagination
   loadProducts() {
-    let productsToDisplay = [...this.filteredProducts]; // Start with tag-filtered products
+    let productsToDisplay = [...this.filteredProducts];
 
-    // Apply search filter if search query exists
     if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase().trim();
       productsToDisplay = productsToDisplay.filter(product =>
-        product.name.toLowerCase().includes(query)
+        product.name.toLowerCase().includes(query) ||
+        product.descriptions.some(desc => desc.toLowerCase().includes(query))
       );
     }
 
-    // Apply pagination
+    this.filteredProducts = productsToDisplay;
+
+    this.totalPages = Math.ceil(this.filteredProducts.length / this.itemsPerPage);
+    this.totalPagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = this.currentPage * this.itemsPerPage;
-    this.visibleProducts = productsToDisplay.slice(0, endIndex);
+    this.visibleProducts = this.filteredProducts.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.loadProducts();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   loadMore() {
@@ -100,7 +117,6 @@ export class ProductsComponent {
   }
 
   openModal(product: Marble) {
-    console.log('Opening modal for:', product);
     this.selectedProduct = product;
     this.showModal = true;
   }
@@ -113,12 +129,10 @@ export class ProductsComponent {
   }
 
   addToCart(marble: Marble | null) {
-    console.log('Adding to cart:');
     if (marble) {
-      console.log('Adding to cart:', marble);
       const cartItem0 = new cartItem(marble, 1);
       this.cartService.addToCart(cartItem0);
     }
-    console.log('Cart updated:', );
   }
+  
 }

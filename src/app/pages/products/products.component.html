@@ -1,30 +1,20 @@
 <div class="container">
   <div class="collection-header">
-    <h1>Our Collection</h1>
-    <p>Discover our handcrafted selection of premium products, designed with quality and elegance in mind.</p>
+    <h1>Notre Collection</h1>
+    <p>Découvrez notre sélection artisanale de produits premium, conçus avec qualité et élégance.</p>
   </div>
 
   <div class="filters">
     <div class="search-bar">
       <input
         type="text"
-        placeholder="Search products..."
+        placeholder="Rechercher des produits..."
         [(ngModel)]="searchQuery"
         (input)="searchProducts()"
         class="search-input"
       />
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#666"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="search-icon"
-      >
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+           fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"></circle>
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
@@ -32,58 +22,72 @@
 
     <div class="tag-filter">
       <button class="tag-filter-btn" (click)="toggleTagMenu()">
-        Filter by Tag
+        Filtrer par Étiquette
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#666">
           <path d="M7 10l5 5 5-5z"/>
         </svg>
       </button>
       <div class="tag-filter-menu" [ngClass]="{'active': isTagMenuOpen}">
+        <button class="tag-filter-option" (click)="filterByTag('all')">Tous les produits</button>
         <button class="tag-filter-option" *ngFor="let tag of tags" (click)="filterByTag(tag.name)">
-          {{ tag.name }}
-          {{tag.count}}
+          {{ tag.name }} ({{tag.count}})
         </button>
       </div>
     </div>
   </div>
 
   <div class="products-grid">
-    <div class="product-card" *ngFor="let marabel of visibleProducts">
+    <div class="product-card" *ngFor="let product of visibleProducts">
       <div class="product-image">
-        <span class="product-tag tag-new">{{ marabel.tags }}</span>
-        <img [src]="marabel.imageurl" alt="{{ marabel.name }}">
-        <div class="quick-view" (click)="openModal(marabel)">Quick View</div>
+        <span class="product-tag" *ngIf="product.tags">{{ product.tags }}</span>
+        <img [src]="product.imageurl" alt="{{ product.name }}">
+        <div class="quick-view" (click)="openModal(product)">Aperçu Rapide</div>
       </div>
       <div class="product-info">
-        <h3 class="product-title">{{ marabel.name }}</h3>
-        <p class="product-description">{{ marabel.descriptions }}</p>
+        <h3 class="product-title">{{ product.name }}</h3>
+        <p class="product-description">{{ product.descriptions }}</p>
       </div>
     </div>
   </div>
 
-  <div class="load-more" *ngIf="visibleProducts.length < marbles.length">
-    <button class="load-more-btn" (click)="loadMore()">Load More Products</button>
-  </div>
-</div>
-
-<!-- Quick View Modal -->
-<div class="modal" *ngIf="showModal" (click)="closeModal($event)">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>{{ selectedProduct?.name }}</h2>
-      <button class="close-modal" (click)="closeModal()">×</button>
+  <!-- Pagination -->
+  <div class="pagination-container" *ngIf="totalPages > 1">
+    <div class="pagination-info">
+      Page {{ currentPage }} sur {{ totalPages }} —
+      Affichage de {{ visibleProducts.length }} sur {{ filteredProducts.length }} produits
     </div>
-    <div class="modal-body">
-      <div class="modal-left">
-        <div class="modal-image">
-          <img [src]="selectedProduct?.imageurl" alt="Product Image">
-        </div>
+    <div class="pagination-controls">
+      <button [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Précédent</button>
+      <button
+        *ngFor="let page of totalPagesArray"
+        [class.active]="page === currentPage"
+        (click)="goToPage(page)">
+        {{ page }}
+      </button>
+      <button [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">Suivant</button>
+    </div>
+  </div>
+
+  <!-- Modal Aperçu Rapide -->
+  <div class="modal" *ngIf="showModal" (click)="closeModal($event)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>{{ selectedProduct?.name }}</h2>
+        <button class="close-modal" (click)="closeModal()">×</button>
       </div>
-      <div class="modal-right">
-        <h2 class="modal-product-title">{{ selectedProduct?.name }}</h2>
-        <div class="modal-product-description">
-          <p>{{ selectedProduct?.descriptions }}</p>
+      <div class="modal-body">
+        <div class="modal-left">
+          <div class="modal-image">
+            <img [src]="selectedProduct?.imageurl" alt="Image du produit">
+          </div>
         </div>
-        <button class="add-to-cart" (click)="addToCart(selectedProduct)">Add to Cart</button>
+        <div class="modal-right">
+          <h2 class="modal-product-title">{{ selectedProduct?.name }}</h2>
+          <div class="modal-product-description">
+            <p>{{ selectedProduct?.descriptions }}</p>
+          </div>
+          <button class="add-to-cart" (click)="addToCart(selectedProduct)">Ajouter au panier</button>
+        </div>
       </div>
     </div>
   </div>

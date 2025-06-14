@@ -96,6 +96,7 @@ export class CartService {
       error: (error) => {
         //console.error('Order submission error:', error);
         const errorMessage = error.error?.message || 'Failed to submit order';
+        console.log('errorMessage:', errorMessage);
         this.toastr.error(errorMessage, 'Error');
       }
     });
