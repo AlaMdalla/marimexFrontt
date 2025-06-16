@@ -50,7 +50,6 @@
     </div>
   </div>
 
-  <!-- Pagination -->
   <div class="pagination-container" *ngIf="totalPages > 1">
     <div class="pagination-info">
       Page {{ currentPage }} sur {{ totalPages }} —
@@ -68,7 +67,6 @@
     </div>
   </div>
 
-  <!-- Modal Aperçu Rapide -->
   <div class="modal" *ngIf="showModal" (click)="closeModal($event)">
     <div class="modal-content">
       <div class="modal-header">
@@ -87,6 +85,43 @@
             <p>{{ selectedProduct?.descriptions }}</p>
           </div>
           <button class="add-to-cart" (click)="addToCart(selectedProduct)">Ajouter au panier</button>
+        </div>
+      </div>
+      <div class="modal-comments" *ngIf="selectedProduct">
+        <h3>Commentaires</h3>
+        <div *ngIf="selectedProduct.comments && selectedProduct.comments.length > 0; else noComments">
+          <div class="comment" *ngFor="let comment of selectedProduct.comments">
+            <div class="comment-header">
+              <span class="comment-user">{{ comment.userName }}</span>
+              <span class="comment-date">{{ comment.createdAt | date:'short' }}</span>
+            </div>
+            <div class="comment-text">{{ comment.text }}</div>
+            <div class="comment-rating">
+              <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                <span class="star" [class.filled]="star <= comment.rating">&#9733;</span>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <ng-template #noComments>
+          <p>Aucun commentaire pour ce produit.</p>
+        </ng-template>
+        <div class="add-comment" *ngIf="currentUser">
+          <div class="rating-input">
+            <span class="rating-label">Votre note :</span>
+            <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+              <span
+                class="star-input"
+                [class.filled]="star <= newRating"
+                (click)="setNewRating(star)"
+              >&#9733;</span>
+            </ng-container>
+          </div>
+          <textarea [(ngModel)]="newComment" placeholder="Ajouter un commentaire..." rows="2"></textarea>
+          <button (click)="submitComment()" [disabled]="!newComment.trim() || newRating === 0">Envoyer</button>
+        </div>
+        <div *ngIf="!currentUser" class="login-to-comment">
+          <p>Connectez-vous pour ajouter un commentaire.</p>
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+import { Comment } from "./comment";
+
 export class Marble{
     id!:string;//!required
     name!:string;
@@ -7,6 +9,7 @@ export class Marble{
     stars!:number;
     imageurl?:string;
     descriptions!:string[];
+    comments?: Comment[];
 
 
 }
