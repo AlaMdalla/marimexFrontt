@@ -31,6 +31,7 @@ export class CartService {
 
     this.updateCartTotals();
     this.setCartToLocalStorage();
+    this.cartSubject.next(this.cart);
     console.log('Cart updated:', this.cart);
   }
 
@@ -40,6 +41,7 @@ export class CartService {
       item.count = quantity;
       this.updateCartTotals();
       this.setCartToLocalStorage();
+      this.cartSubject.next(this.cart);
     }
   }
 
@@ -50,11 +52,13 @@ export class CartService {
     );
     this.updateCartTotals();
     this.setCartToLocalStorage();
+    this.cartSubject.next(this.cart);
   }
 
   public clearCart(): void {
     this.cart = new cart();
     this.setCartToLocalStorage();
+    this.cartSubject.next(this.cart);
   }
 
   public getCartFromLocalStorage(): cart {
@@ -89,6 +93,7 @@ export class CartService {
       next: (response: any) => {
         if (response.success) {
           this.toastr.success(response.message, 'Success');
+          this.clearCart();
         } else {
           this.toastr.error(response.message, 'Error');
         }

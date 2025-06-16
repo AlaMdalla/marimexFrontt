@@ -22,8 +22,9 @@ export class CartComponent implements OnInit {
   cart!: cart;
   location:any;
   showMapModal = false;
-number_of_phone: string = '';
-order_name: string='';
+  showConfirmationModal = false;
+  number_of_phone: string = '';
+  order_name: string='';
 
   openMap() {
     this.showMapModal = true;
@@ -87,6 +88,24 @@ order_name: string='';
     this.cart = this.cartService.getCart();
     this.cartItems = this.cart.cartItems;
   }
+
+  confirmOrder(): void {
+    if (this.cartItems.length > 0) {
+      this.showConfirmationModal = true;
+    } else {
+      alert('Your cart is empty!');
+    }
+  }
+
+  closeConfirmationModal(): void {
+    this.showConfirmationModal = false;
+  }
+
+  confirmAndSubmitOrder(): void {
+    this.showConfirmationModal = false;
+    this.submitOrder();
+  }
+
   submitOrder(): void {
     const commande = {
       list_marbles: this.cartItems.map(item => ({

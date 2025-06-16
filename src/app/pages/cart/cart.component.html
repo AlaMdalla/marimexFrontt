@@ -81,7 +81,7 @@
           <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#a67c52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
-      <button class="checkout-btn" (click)="submitOrder()">Passer la Commande</button>
+      <button class="checkout-btn" (click)="confirmOrder()">Passer la Commande</button>
       <a routerLink="/products" class="continue-shopping-link">Continuer vos Achats</a>
     </div>
   </div>
@@ -90,3 +90,38 @@
 <app-maps *ngIf="showMapModal"
   (locationSelected)="handleLocation($event)"
   (closed)="showMapModal = false"></app-maps>
+
+<!-- Confirmation Modal -->
+<div class="modal" *ngIf="showConfirmationModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Confirmer la Commande</h2>
+      <button class="close-modal" (click)="closeConfirmationModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <h3>Résumé de votre commande</h3>
+      <ul>
+        <li *ngFor="let item of cartItems">
+          {{ item.marbel.name }} &times; {{ item.count }} — {{ (item.marbel.price * item.count) | number:'1.2-2' }} €
+        </li>
+      </ul>
+      <div class="summary-row total">
+        <span>Total Estimé :</span>
+        <span class="amount">{{ calculateSubtotal() | number:'1.2-2' }} €</span>
+      </div>
+      <div class="summary-row">
+        <span>Nom :</span> <span>{{ order_name }}</span>
+      </div>
+      <div class="summary-row">
+        <span>Téléphone :</span> <span>{{ number_of_phone }}</span>
+      </div>
+      <div class="summary-row" *ngIf="location">
+        <span>Localisation :</span> <span>{{ location.lat }}, {{ location.lng }}</span>
+      </div>
+      <div class="modal-actions">
+        <button class="confirm-btn" (click)="confirmAndSubmitOrder()">Confirmer</button>
+        <button class="cancel-btn" (click)="closeConfirmationModal()">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
