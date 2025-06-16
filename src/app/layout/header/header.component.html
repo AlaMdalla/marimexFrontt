@@ -1,9 +1,8 @@
-
 <header class="site-header" role="banner">
   <div class="container">
     <div class="header-inner">
       <a routerLink="/" class="logo" aria-label="Marimex Home">M<span>arimex</span></a>
-      
+
       <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle navigation menu" [attr.aria-expanded]="isMenuOpen">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2">
           <line x1="3" y1="12" x2="21" y2="12" *ngIf="!isMenuOpen"></line>
@@ -22,7 +21,9 @@
           <li *ngIf="isAuth" class="menu-container" [ngClass]="{'active': isMenuOpen}" (click)="toggleMenu()">
             <a href="#" (click)="$event.preventDefault()">{{ user?.name }}</a>
             <div class="menu">
-              <a routerLink="/orders" (click)="toggleMenu()">Orders</a>
+              <a *ngIf="user?.isAdmin" routerLink="/admin" (click)="toggleMenu()">Dashboard</a>
+              <a *ngIf="user?.isAdmin" routerLink="admin/orders" (click)="toggleMenu()">Orders</a>
+
               <a href="#" (click)="logout()">Logout</a>
             </div>
           </li>

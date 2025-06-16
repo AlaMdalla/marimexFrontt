@@ -20,7 +20,7 @@ export const routes: Routes = [
     { path: 'maps', component: MapsComponent },
     { path: 'admin', component: AdminDashboardComponent ,  canActivate: [AdminGuard]},
     { path: 'admin/orders', component: DisplayOrdersComponent ,  canActivate: [AdminGuard]},
-    { path: 'admin/edit/:id', component: EditMarbleComponent },
+    { path: 'admin/edit/:id', component: EditMarbleComponent ,  canActivate: [AdminGuard]},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'about', component: AboutComponent },
