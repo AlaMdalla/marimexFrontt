@@ -21,8 +21,19 @@ export class DisplayOrdersComponent implements OnInit {
   sortField: string = 'totalPrice';
   sortDirection: 'asc' | 'desc' = 'asc';
   filterText: string = '';
-  current_marble: any;
-  list_marbles: any[] = [];
+  marbleMap: { [key: string]: any } = {};
+
+  public chartType: ChartType = 'pie';
+  public chartData: ChartConfiguration['data'] = {
+    labels: ['Red', 'Blue', 'Yellow'],
+    datasets: [
+      {
+        label: 'Votes',
+        data: [12, 19, 3],
+        backgroundColor: ['red', 'blue', 'yellow']
+      }
+    ]
+  };
 
   constructor(
     private cartService: CartService,
@@ -34,31 +45,31 @@ export class DisplayOrdersComponent implements OnInit {
     this.loadCommandes();
   }
 
-  getmarabelName(id: string):string {
-    console.log("id",id);
-    this.marblesService.getMarbleById(id).subscribe((res) => {
-      this.current_marble = res;
-      console.log("marble",this.current_marble);
-
-return "test";
-    });
-    return" this.current_marble.name";
-  }
   async loadCommandes(): Promise<void> {
     this.isLoading = true;
     try {
       const response = await this.cartService.getAllCommandes().toPromise();
       if (response.success) {
         this.commandes = response.data || [];
-        for (const commande of this.commandes) {
-          for (const marble of commande.list_marbles) {
-            this.getmarabelName(marble._id);
-            this.current_marble=this.marblesService.getMarbleById(marble._id);
 
-            console.log("marble",this.current_marble);
+        // Fetch all marbles used
+        const marbleIds = new Set<string>();
+        this.commandes.forEach((commande: any) => {
+          commande.list_marbles.forEach((item: any) => {
+            marbleIds.add(item.marble);
+          });
+        });
+
+        for (const id of marbleIds) {
+          if (!this.marbleMap[id]) {
+            try {
+              const marbleData = await this.marblesService.getMarbleById(id).toPromise();
+              this.marbleMap[id] = marbleData;
+            } catch (error) {
+              this.marbleMap[id] = null;
+            }
           }
         }
-        console.log(this.commandes);
       } else {
         this.toastr.error(response.message, 'Error');
         this.commandes = [];
@@ -99,8 +110,10 @@ return "test";
         (commande.totalPrice?.toString().includes(lowerFilter) || '') ||
         (`${commande.location?.lat || ''},${commande.location?.lng || ''}`.toLowerCase().includes(lowerFilter)) ||
         commande.list_marbles.some((item: any) =>
-          item.marble?.toLowerCase().includes(lowerFilter)
-        )
+          this.marbleMap[item.marble]?.name?.toLowerCase().includes(lowerFilter)
+        ) ||
+        commande.order_name?.toLowerCase().includes(lowerFilter) ||
+        commande.number_of_phone?.toString().includes(lowerFilter)
       );
     }
 
@@ -121,6 +134,7 @@ return "test";
 
   validateCommande(commande: any): void {
     console.log('Validating commande:', commande);
+    // Add actual validation logic here
   }
 
   rejectCommande(commande: any): void {
@@ -135,17 +149,4 @@ return "test";
     );
     console.log('Rejecting commande:', commande);
   }
-
-  public chartType: ChartType = 'pie';
-
-  public chartData: ChartConfiguration['data'] = {
-    labels: ['Red', 'Blue', 'Yellow'],
-    datasets: [
-      {
-        label: 'Votes',
-        data: [12, 19, 3],
-        backgroundColor: ['red', 'blue', 'yellow']
-      }
-    ]
-  };
 }
