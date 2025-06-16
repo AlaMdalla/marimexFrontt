@@ -23,8 +23,8 @@ export class CartComponent implements OnInit {
   location:any;
   showMapModal = false;
   showConfirmationModal = false;
-  number_of_phone: string = '';
-  order_name: string='';
+number_of_phone: string = '';
+order_name: string='';
 
   openMap() {
     this.showMapModal = true;

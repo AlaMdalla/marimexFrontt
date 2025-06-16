@@ -154,4 +154,93 @@ nav {
   .menu-container.active .menu {
     display: block; /* Show on click for mobile */
   }
+}.call-item {
+  a.call-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border: 1.5px solid #a67c52;
+    border-radius: 30px;
+    color: #a67c52;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #a67c52;
+      color: white;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      transition: background-color 0.3s, color 0.3s;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        fill: currentColor; // ✔️ Uses text color for svg
+        transition: fill 0.3s;
+      }
+    }
+
+    .call-number {
+      font-weight: 500;
+      color: inherit; // ✔️ Follows parent color
+      transition: color 0.3s;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.5),
+        transparent
+      );
+      transform: skewX(-20deg);
+    }
+
+    &:hover::before {
+      animation: shine 1s ease-in-out;
+    }
+
+    &:hover {
+      background-color: #a67c52;
+      color: white;
+
+      .icon-container {
+        background-color: white;
+        color: #a67c52;
+      }
+
+      .call-number {
+        color: white; // 🔥 Force it to be visible on dark bg
+      }
+      .call-label {
+        color: white; // 🔥 Force it to be visible on dark bg
+      }
+    }
+  }
+}
+
+@keyframes shine {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
 }

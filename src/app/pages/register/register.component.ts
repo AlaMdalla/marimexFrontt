@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { UserServiceService } from '../../services/user.service.service';
 import { IUserRegister } from '../../interfaces/IuserRegister';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 declare const google: any;
 
 @Component({
@@ -13,11 +14,12 @@ declare const google: any;
   imports: [ReactiveFormsModule, FormsModule, CommonModule],
 
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   RegisterForm!: FormGroup;
   isSubmited = false;
   returnURL = '';
   loading: boolean = false;
+  private routerSub?: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,11 +34,6 @@ export class RegisterComponent implements OnInit {
       callback: this.handleCredentialResponse.bind(this),
     });
 
-    google.accounts.id.renderButton(
-      document.getElementById('googleBtn'),
-      { theme: 'outline', size: 'large' }
-    );
-
     this.RegisterForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
       email: ['', [Validators.required, Validators.email]],
@@ -47,6 +44,30 @@ export class RegisterComponent implements OnInit {
     });
 
     this.returnURL = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+  }
+
+  ngAfterViewInit() {
+    this.renderGoogleButton();
+    this.routerSub = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.renderGoogleButton();
+      }
+    });
+  }
+
+  renderGoogleButton() {
+    const btnDiv = document.getElementById('googleBtn');
+    if (btnDiv) btnDiv.innerHTML = '';
+    if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+      google.accounts.id.renderButton(
+        btnDiv,
+        { theme: 'outline', size: 'large' }
+      );
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.routerSub) this.routerSub.unsubscribe();
   }
 
   handleCredentialResponse(response: any) {
