@@ -35,9 +35,10 @@ export class ProductsComponent implements OnInit {
   totalPages: number = 1;
   totalPagesArray: number[] = [];
   newComment: string = '';
-  newRating: number = 0; // Add this line for the new comment's rating
+  newRating: number = 0;
   selectedTags: string[] = [];
   currentUser: User | null = null;
+  selectedTag: string = 'all';
 
   constructor(
     private cartService: CartService,
@@ -77,22 +78,8 @@ export class ProductsComponent implements OnInit {
   filterByTag(tagName: string) {
     this.isTagMenuOpen = false;
     this.currentPage = 1;
-    this.searchQuery = '';
-
-    if (tagName === 'all') {
-      this.filteredProducts = [...this.marbles];
-      this.updatePagination();
-    } else {
-      this.marblesService.getAllmarbleByTag(tagName).subscribe({
-        next: (data) => {
-          this.filteredProducts = data;
-          this.updatePagination();
-        },
-        error: (error) => {
-          console.error('Error filtering by tag:', error);
-        }
-      });
-    }
+    this.selectedTag = tagName;
+    this.updatePagination();
   }
 
   searchProducts() {
@@ -101,24 +88,36 @@ export class ProductsComponent implements OnInit {
   }
 
   private updatePagination() {
-    let productsToDisplay = [...this.filteredProducts];
+    let productsToDisplay = [...this.marbles];
 
-    // Apply search filter
+    // Tag filter
+    if (this.selectedTag && this.selectedTag !== 'all') {
+      productsToDisplay = productsToDisplay.filter(product =>
+        product.tags && product.tags.includes(this.selectedTag)
+      );
+    }
+
+    // Search filter
     if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase().trim();
+
       productsToDisplay = productsToDisplay.filter(product =>
         product.name.toLowerCase().includes(query) ||
-        product.descriptions.some(desc => desc.toLowerCase().includes(query))
+        (Array.isArray(product.descriptions) && product.descriptions.some(desc =>
+          desc.toLowerCase().includes(query)
+        )) ||
+        (Array.isArray(product.tags) && product.tags.some(tag =>
+          tag.toLowerCase().includes(query)
+        ))
       );
     }
 
     this.filteredProducts = productsToDisplay;
 
-    // Calculate pagination
+    // Pagination
     this.totalPages = Math.ceil(this.filteredProducts.length / this.itemsPerPage);
     this.totalPagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
 
-    // Get current page items
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = this.currentPage * this.itemsPerPage;
     this.visibleProducts = this.filteredProducts.slice(startIndex, endIndex);
@@ -133,9 +132,8 @@ export class ProductsComponent implements OnInit {
   openModal(product: Marble) {
     this.selectedProduct = product;
     this.showModal = true;
-    this.newRating = 0; // Reset rating when opening modal
+    this.newRating = 0;
 
-    // Load comments when opening modal
     if (product.id) {
       this.loadCommentsForProduct(product.id);
     }
@@ -146,7 +144,7 @@ export class ProductsComponent implements OnInit {
       this.showModal = false;
       this.selectedProduct = null;
       this.newComment = '';
-      this.newRating = 0; // Reset rating when closing modal
+      this.newRating = 0;
     }
   }
 
@@ -175,7 +173,6 @@ export class ProductsComponent implements OnInit {
   }
 
   submitComment() {
-    // Validation: Ensure product, user, comment text, and rating exist
     if (!this.selectedProduct || !this.currentUser || !this.newComment.trim() || this.newRating === 0) {
       this.toastr.warning('Veuillez fournir un commentaire et une note.', 'Informations manquantes');
       return;
@@ -185,36 +182,22 @@ export class ProductsComponent implements OnInit {
       userId: this.currentUser.id,
       userName: this.currentUser.name,
       text: this.newComment.trim(),
-      rating: this.newRating, // Include the rating here
+      rating: this.newRating,
       marbleId: this.selectedProduct.id
     };
 
-    console.log('Submitting comment:', comment);
-
     this.commentService.addComment(comment).subscribe({
       next: (savedComment: Comment) => {
-        console.log('Comment saved successfully:', savedComment);
-
         if (this.selectedProduct) {
-          // Initialize comments array if it doesn't exist
           this.selectedProduct.comments = this.selectedProduct.comments || [];
-
-          // Add the new comment to the product's comment list
           this.selectedProduct.comments.push(savedComment);
           this.newComment = '';
-          this.newRating = 0; // Reset rating after successful submission
+          this.newRating = 0;
         }
         this.toastr.success('Commentaire ajouté avec succès !', 'Succès');
       },
       error: (error: any) => {
         console.error('Error submitting comment:', error);
-
-        if (error.status === 500) {
-          console.error('Server error: Please check your backend logs for more details.');
-        } else if (error.error?.message) {
-          console.error('Backend error message:', error.error.message);
-        }
-
         this.toastr.error('Échec de l\'ajout du commentaire. Veuillez réessayer plus tard.', 'Erreur');
       }
     });
