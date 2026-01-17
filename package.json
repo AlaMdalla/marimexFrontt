@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.6",
-    "@angular/cli": "^19.2.6",
+    "@angular/cli": "^21.1.0",
     "@angular/compiler-cli": "^19.2.0",
     "@types/gapi.auth2": "^0.0.61",
     "@types/google.accounts": "^0.0.16",
